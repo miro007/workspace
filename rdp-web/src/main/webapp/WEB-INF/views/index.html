@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+
+
+ <link href=""
+          th:href="@{/resources/css/typeahead.css}" rel="stylesheet"/>
+<script src="" th:src="@{/resources/js/classic.js}"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.js"></script>
+<style type="text/css">
+body{
+margin: 10px 10px 10px 10px
+}
+.label{
+margin: 10px 10px 10px 10px
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+$('input.typeahead').typeahead({
+	  name: 'accounts',
+	  local: ['timtrueman', 'JakeHarding', 'vskarich']
+	});
+})
+</script>
+</head>
+<body >
+<div class="jumbotron">
+  <div class="container">
+    <h2>Researh Day Planner</h2>
+    <p>Chcialbys poznac ciekawe technologie i techniki - zrobmy to razem</p>
+    <p><a class="btn btn-primary btn-lg" data-toggle="modal" href="#myModal">Dodaj nowy projekt</a></p>
+  </div>
+</div>
+
+<div id="content">
+	<div th:include="partials/meeting" th:remove="tag" th:each="meeting : ${meetings}" th:with="meeting=${meeting}"></div>
+</div>
+<div th:include="partials/meetingForm" th:remove="tag" ></div>
+</body>
+</html>

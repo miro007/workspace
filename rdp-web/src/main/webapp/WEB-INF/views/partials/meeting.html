@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div class="col-lg-6 " th:fragment="meeting" th:inline="text">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-lg-4 ">
+						<h3 class="panel-title">[[${meeting.name}]]</h3>
+					</div>
+					<div align="right" class="col-lg-6 col-lg-offset-2">
+
+						<div class="btn-group btn-xs">
+							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+								Akcje <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#"> Dolacz do zespolu</a></li>
+								<li><a href="#">Opusc zespol</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Dodaj komentarz <span class="badge">42</span></a></li>
+								<li><a href="#" th:attr="db-id=${meeting.id}" onclick="deleteMeeting(this)">Usun </a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">[[${meeting.description}]]</div>
+			<div class="panel-footer">
+				<div class="row">
+					<div class="col-lg-4">
+						<span class="label label-primary" th:each="tag : ${meeting.tags}">[[${tag}]]</span>
+					</div>
+					<div class="col-lg-6 ">
+						<span class="label label-success" th:each="member : ${meeting.members}">[[${member.email}]]</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+

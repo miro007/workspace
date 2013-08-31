@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="rdp">
+<head>
+
+<title>Insert title here</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular-route.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular-animate.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular-loader.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular-resource.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular-sanitize.js"></script>
+    <script type="text/javascript" src="resources/lib/1.2.rc1/angular-cookies.js"></script>
+    <script type="text/javascript" src="rdp.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<style type="text/css">
+.label {
+margin: 5px 5px 5px 5px;
+font-size: 13px
+}
+</style>
+</head>
+<body>
+<div class="bs-example">
+<div ng-controller="miro">
+
+<div class="row" style="margin: 10px 10px 10px 10px">
+		<meeting data="meeting" ng-repeat="meeting in meetings"/>
+</div>
+
+</div>
+</body>
+</html>
