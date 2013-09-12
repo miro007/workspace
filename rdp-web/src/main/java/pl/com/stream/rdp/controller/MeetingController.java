@@ -25,6 +25,11 @@ import pl.com.stream.rdp.service.MeetingService;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
+/**
+ * 
+ * @author Mirek
+ * 
+ */
 @Controller
 @RequestMapping(value = "/meeting", produces = MediaType.ALL_VALUE, consumes = MediaType.ALL_VALUE)
 public class MeetingController {
