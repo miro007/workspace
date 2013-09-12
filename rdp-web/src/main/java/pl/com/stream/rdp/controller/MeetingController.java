@@ -2,7 +2,6 @@ package pl.com.stream.rdp.controller;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -20,10 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import pl.com.stream.rdp.model.Meeting;
 import pl.com.stream.rdp.repo.MeetingRepository;
 import pl.com.stream.rdp.service.MeetingDto;
+import pl.com.stream.rdp.service.MeetingRV;
 import pl.com.stream.rdp.service.MeetingService;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -67,18 +64,8 @@ public class MeetingController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.ALL_VALUE)
 	@ResponseBody
-	public List<MeetingDto> list() {
-		List<Meeting> meetings = meetingRepository
-				.findByDevOrderByCreationDateAsc(true);
-		List<MeetingDto> transform = Lists.transform(meetings,
-				new Function<Meeting, MeetingDto>() {
-
-					@Override
-					public MeetingDto apply(@Nullable Meeting input) {
-						return service.find(input.getId());
-					}
-				});
-		return transform;
+	public List<MeetingRV> list() {
+		return service.findAll();
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
