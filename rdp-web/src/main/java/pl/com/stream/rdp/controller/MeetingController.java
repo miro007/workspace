@@ -22,11 +22,6 @@ import pl.com.stream.rdp.service.MeetingDto;
 import pl.com.stream.rdp.service.MeetingRV;
 import pl.com.stream.rdp.service.MeetingService;
 
-/**
- * 
- * @author Mirek2331
- * 
- */
 @Controller
 @RequestMapping(value = "/meeting", produces = MediaType.ALL_VALUE, consumes = MediaType.ALL_VALUE)
 public class MeetingController {
