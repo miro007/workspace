@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
 
 /**
  * 
- * @author Mirek23
+ * @author Mirek235
  * 
  */
 @Controller
