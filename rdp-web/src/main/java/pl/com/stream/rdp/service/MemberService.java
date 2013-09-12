@@ -1,4 +1,3 @@
-
 package pl.com.stream.rdp.service;
 
 import javax.inject.Inject;
@@ -21,13 +20,13 @@ public class MemberService {
 		repo.save(member);
 	}
 
-	public MemberDto findByEmail(final String email) {
+	public void login(MemberDto dto) {
 		MemberDto result = new MemberDto();
-		Member member = repo.findByEmail(email);
+		Member member = repo.findByEmail(dto.getEmail());
 		if (member == null) {
-			return null;
+			member = new Member();
+			BeanUtils.copyProperties(dto, member);
+			repo.save(member);
 		}
-		BeanUtils.copyProperties(member, result);
-		return result;
 	}
 }

@@ -108,7 +108,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -128,12 +128,12 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
-			<version>1.6.1</version>
+			<version>1.9.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.6.1</version>
+			<version>1.9.13</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -145,6 +145,11 @@
 			<artifactId>thymeleaf</artifactId>
 			<version>2.0.18</version>
 		</dependency>
+		<dependency>
+	<groupId>net.sourceforge.nekohtml</groupId>
+	<artifactId>nekohtml</artifactId>
+	<version>1.9.18</version>
+</dependency>
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring3</artifactId>

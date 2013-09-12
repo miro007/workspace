@@ -1,0 +1,34 @@
+	<div class="col-md-6 " >
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-8 ">
+						<h3 class="panel-title">{{meeting.name}}</h3>
+					</div>
+					<div align="right" class="col-md-4 ">
+
+						<div class="btn-group btn-xs">
+							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+								Akcje <span class="caret"></span>
+							</button>
+							
+							<ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+								<li role="presentation" class="dropdown-header">Zespół</li>
+								<li><a href="#" ng-click="$parent.addMember(meeting.id)" > Dołącz</a></li>
+								<li><a href="#" ng-click="$parent.removeMember(meeting.id)">Opuść</a></li>
+								<li class="divider"></li>
+								<li role="presentation" class="dropdown-header">Projekt</li>
+								<li><a href="#" ng-click="$parent.editMeeting(meeting.id)">Popraw </a></li>
+								<li><a href="#" ng-click="$parent.deleteMeeting(meeting.id)">Usuń</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">{{meeting.description}}</div>
+			<div class="panel-footer" >
+						<span class="label label-primary" style="display:inline-block" ng-repeat="tag in meeting.tags">{{tag}}</span>
+						<span class="label label-success " style="display:inline-block" ng-repeat="member in meeting.membersNames">{{member}}</span>
+			</div>
+		</div>
+	</div>

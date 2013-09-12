@@ -17,7 +17,8 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".html" />
-		<property name="templateMode" value="HTML5" />
+		<property name="templateMode" value="LEGACYHTML5" />
+			<property name="characterEncoding" value="UTF-8" />
 	</bean>
 
 	<bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
@@ -30,6 +31,8 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
 		<property name="templateEngine" ref="templateEngine" />
 		<property name="cache" value="false" />
+		<property name="characterEncoding" value="UTF-8" />
+		<property name="contentType" value="text/html; charset=UTF-8" />
 	</bean>
 </beans>
 

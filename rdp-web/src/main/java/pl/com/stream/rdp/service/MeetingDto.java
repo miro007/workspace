@@ -1,14 +1,14 @@
-
 package pl.com.stream.rdp.service;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class MeetingDto implements Serializable {
-
+	private String id;
 	private String name;
 	private String description;
 	private List<String> tags;
+	private List<String> membersNames;
 
 	public String getName() {
 		return name;
@@ -32,5 +32,22 @@ public class MeetingDto implements Serializable {
 
 	public void setTags(final List<String> tags) {
 		this.tags = tags;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		if (id != null && !id.isEmpty())
+			this.id = id;
+	}
+
+	public List<String> getMembersNames() {
+		return membersNames;
+	}
+
+	public void setMembersNames(List<String> membersNames) {
+		this.membersNames = membersNames;
 	}
 }

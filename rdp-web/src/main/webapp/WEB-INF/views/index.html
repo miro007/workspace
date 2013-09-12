@@ -12,7 +12,6 @@
           th:href="@{/resources/css/typeahead.css}" rel="stylesheet"/>
 <script src="" th:src="@{/resources/js/classic.js}"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.js"></script>
 <style type="text/css">
 body{
 margin: 10px 10px 10px 10px
@@ -23,25 +22,24 @@ margin: 10px 10px 10px 10px
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
-$('input.typeahead').typeahead({
-	  name: 'accounts',
-	  local: ['timtrueman', 'JakeHarding', 'vskarich']
-	});
+	refreshList();
 })
 </script>
 </head>
 <body >
-<div class="jumbotron">
+
+
+
+<div class="jumbotron" style="height:200px">
   <div class="container">
-    <h2>Researh Day Planner</h2>
-    <p>Chcialbys poznac ciekawe technologie i techniki - zrobmy to razem</p>
+    <h3>Researh Day Planner - nastepny termin 19.09.2013</h3>
+    <p>Praktyczne poznawanie nowych technologii poprzez tworzenie projektów w grupach</p>
     <p><a class="btn btn-primary btn-lg" data-toggle="modal" href="#myModal">Dodaj nowy projekt</a></p>
   </div>
 </div>
-
 <div id="content">
-	<div th:include="partials/meeting" th:remove="tag" th:each="meeting : ${meetings}" th:with="meeting=${meeting}"></div>
 </div>
 <div th:include="partials/meetingForm" th:remove="tag" ></div>
+<div th:include="partials/loginForm" th:remove="tag" ></div>
 </body>
 </html>

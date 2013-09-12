@@ -1,4 +1,3 @@
-
 package pl.com.stream.rdp.model;
 
 import java.util.ArrayList;
@@ -19,6 +18,8 @@ public class Meeting extends IdRootDocument {
 
 	@DBRef
 	private final List<Comment> comments = new ArrayList<Comment>();
+
+	private final Boolean dev = Boolean.TRUE;
 
 	public String getDescription() {
 		return description;

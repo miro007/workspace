@@ -1,4 +1,3 @@
-
 package pl.com.stream.rdp.model;
 
 import org.springframework.data.annotation.Id;
@@ -6,7 +5,7 @@ import org.springframework.data.annotation.Id;
 public abstract class IdRootDocument extends RootDocument {
 
 	@Id
-	private String id;
+	String id;
 
 	public String getId() {
 		return id;
@@ -27,6 +26,9 @@ public abstract class IdRootDocument extends RootDocument {
 
 	@Override
 	public int hashCode() {
+		if (this.id == null) {
+			return super.hashCode();
+		}
 		return this.id.hashCode();
 	}
 

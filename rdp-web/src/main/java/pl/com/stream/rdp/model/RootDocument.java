@@ -1,5 +1,6 @@
-
 package pl.com.stream.rdp.model;
+
+import java.util.Date;
 
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.annotation.Version;
@@ -14,6 +15,8 @@ public abstract class RootDocument {
 	private Long classVersion = 1L;
 	@Version
 	private Long objectVersion;
+	@Field
+	private Date creationDate;
 
 	public Long getClassVersion() {
 		return classVersion;
@@ -29,6 +32,14 @@ public abstract class RootDocument {
 
 	public void setObjectVersion(final Long objectVersion) {
 		this.objectVersion = objectVersion;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	@Transient

@@ -20,22 +20,10 @@
 	<mongo:repositories base-package="pl.com.stream" />
 
 
-	<mongo:db-factory dbname="mirek" host="192.168.72.238"
-		port="27017" />
+<mongo:db-factory host="ds041248.mongolab.com" port="41248" dbname="rdp" username="admin" password="stream321"/>
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
-	</bean>
-	<bean id="jacksonMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="jacksonMessageConverter" />
-			</list>
-		</property>
 	</bean>
 
 </beans>
