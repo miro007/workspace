@@ -1,6 +1,8 @@
 package pl.com.stream.rdp.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -62,14 +64,27 @@ public class MeetingService {
 		MeetingDto dto = new MeetingDto();
 		Meeting meeting = repo.findOne(id);
 		BeanUtils.copyProperties(meeting, dto);
-		dto.setMembersNames(Lists.transform(meeting.getMembers(),
-				new Function<Member, String>() {
-
-					@Override
-					public String apply(@Nullable Member input) {
-						return input.getFirstName() + " " + input.getLastName();
-					}
-				}));
 		return dto;
+	}
+
+	public List<MeetingRV> findAll() {
+		Iterable<Meeting> findAll = repo.findAll();
+		List<MeetingRV> resutl = new ArrayList<MeetingRV>();
+		for (Meeting meeting : findAll) {
+			MeetingRV meetingRV = new MeetingRV();
+			BeanUtils.copyProperties(meeting, meetingRV);
+			meetingRV.setMembersNames(Lists.transform(meeting.getMembers(),
+					new Function<Member, String>() {
+
+						@Override
+						public String apply(@Nullable Member input) {
+							return input.getFirstName() + " "
+									+ input.getLastName();
+						}
+					}));
+			resutl.add(meetingRV);
+		}
+		return resutl;
+
 	}
 }

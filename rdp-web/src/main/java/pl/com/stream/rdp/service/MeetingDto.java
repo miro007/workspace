@@ -8,7 +8,6 @@ public class MeetingDto implements Serializable {
 	private String name;
 	private String description;
 	private List<String> tags;
-	private List<String> membersNames;
 
 	public String getName() {
 		return name;
@@ -41,13 +40,5 @@ public class MeetingDto implements Serializable {
 	public void setId(String id) {
 		if (id != null && !id.isEmpty())
 			this.id = id;
-	}
-
-	public List<String> getMembersNames() {
-		return membersNames;
-	}
-
-	public void setMembersNames(List<String> membersNames) {
-		this.membersNames = membersNames;
 	}
 }
