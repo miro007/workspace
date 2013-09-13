@@ -71,20 +71,25 @@ public class MeetingService {
 		Iterable<Meeting> findAll = repo.findAll();
 		List<MeetingRV> resutl = new ArrayList<MeetingRV>();
 		for (Meeting meeting : findAll) {
-			MeetingRV meetingRV = new MeetingRV();
-			BeanUtils.copyProperties(meeting, meetingRV);
-			meetingRV.setMembersNames(Lists.transform(meeting.getMembers(),
-					new Function<Member, String>() {
-
-						@Override
-						public String apply(@Nullable Member input) {
-							return input.getFirstName() + " "
-									+ input.getLastName();
-						}
-					}));
+			MeetingRV meetingRV = createMeetingRV(meeting);
 			resutl.add(meetingRV);
 		}
 		return resutl;
 
+	}
+
+	private MeetingRV createMeetingRV(Meeting meeting) {
+		MeetingRV meetingRV = new MeetingRV();
+		BeanUtils.copyProperties(meeting, meetingRV);
+		meetingRV.setMembersNames(Lists.transform(meeting.getMembers(),
+				new Function<Member, String>() {
+
+					@Override
+					public String apply(@Nullable Member input) {
+						return input.getFirstName() + " "
+								+ input.getLastName();
+					}
+				}));
+		return meetingRV;
 	}
 }
