@@ -66,25 +66,26 @@ public class MemberControllerTest {
 
 	}
 
-	// @Test
-	// public void shouldLoginMember() throws Exception {
-	// // given
-	// String email = System.currentTimeMillis() + "@tlen.pl";
-	// MemberDto memberDto = new MemberDto();
-	// memberDto.setEmail(email);
-	// memberDto.setFirstName("Mirek");
-	// memberDto.setLastName("Szajowski");
-	// memberService.save(memberDto);
-	//
-	// // when
-	// ResultActions perform = mockMvc.perform(MockMvcRequestBuilders.post(
-	// "/member/login?email=" + email).contentType(
-	// MediaType.APPLICATION_JSON));
-	// perform.andExpect(MockMvcResultMatchers.status().isOk());
-	//
-	// // then
-	//
-	// }
+	@Test
+	public void shouldLoginMember() throws Exception {
+		// given
+		String email = System.currentTimeMillis() + "@tlen.pl";
+		MemberDto memberDto = new MemberDto();
+		memberDto.setEmail(email);
+		memberDto.setFirstName("Mirek");
+		memberDto.setLastName("Szajowski");
+		memberService.save(memberDto);
+
+		// when
+		ResultActions perform = mockMvc.perform(MockMvcRequestBuilders
+				.post("/member/login")
+				.content(new ObjectMapper().writeValueAsString(memberDto))
+				.contentType(MediaType.APPLICATION_JSON));
+		perform.andExpect(MockMvcResultMatchers.status().isOk());
+
+		// then
+
+	}
 
 	public void shouldAdadMember() throws Exception {
 		// when
