@@ -1,12 +1,15 @@
+
 package pl.com.stream.rdp.controller;
 
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,8 +54,7 @@ public class MeetingController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE, consumes = MediaType.ALL_VALUE)
 	public String list(final Model model) {
-		List<Meeting> meetings = meetingRepository
-				.findByDevOrderByCreationDateAsc(true);
+		List<Meeting> meetings = meetingRepository.findByDevOrderByCreationDateAsc(true);
 		model.addAttribute("meetings", meetings);
 		return "list";
 	}
@@ -70,16 +72,18 @@ public class MeetingController {
 	}
 
 	@RequestMapping(value = "/{id}/addMember", method = RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public void addMember(@PathVariable("id") String id,
-			final HttpSession session) {
-		service.addMember(id, (String) session.getAttribute("user"));
+	public ResponseEntity<Void> addMember(@PathVariable("id") final String id, final HttpSession session, final HttpServletResponse response) {
+		Object attribute = session.getAttribute("user");
+		if (attribute == null) {
+			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+		}
+		service.addMember(id, (String) attribute);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}/removeMember", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void removeMember(@PathVariable("id") String id,
-			final HttpSession session) {
+	public void removeMember(@PathVariable("id") final String id, final HttpSession session) {
 		service.removeMember(id, (String) session.getAttribute("user"));
 	}
 }

@@ -16,6 +16,35 @@ rdp.directive('meeting', function() {
 	}
 })
 
+rdp.config(function($httpProvider) {
+  var interceptor = ['$rootScope','$q', function(scope, $q) {
+
+    function success(response) {
+      return response;
+    }
+
+    function error(response) {
+      var status = response.status;
+
+      if (status == 401) {
+    	  alert('mam')
+
+        scope.$broadcast('event:loginRequired');
+
+      }
+      // otherwise
+      return $q.reject(response);
+
+    }
+
+    return function(promise) {
+      return promise.then(success, error);
+    }
+
+  }];
+  $httpProvider.responseInterceptors.push(interceptor);
+});
+
 function appController($scope, $rootScope, meetingService, loginService) {
 	meetingService.list().then(function(data) {
 		$scope.meetings = data;
@@ -44,7 +73,12 @@ function memberController($scope, $rootScope, meetingService, loginService) {
 			$('#loginModal').modal('hide')
 		});
 	}
+
+	$scope.$on('event:loginRequired', function(){
+		$('#loginModal').modal('show')
+	})
 }
+
 
 function meetingController($scope, meetingService) {
 	$scope.meeting={}
@@ -59,7 +93,7 @@ function meetingController($scope, meetingService) {
 	$scope.deleteMeeting = function(id) {
 		meetingService.deleteMeeting(id);
 	}
-	
+
 	$scope.saveMeeting = function() {
 		var meeting = $scope.meeting;
 		try{
@@ -70,7 +104,7 @@ function meetingController($scope, meetingService) {
 			$scope.meeting={}
 		});
 	}
-	
+
 	$scope.editMeeting = function(id) {
 		meetingService.findMeeting(id).then(function(data){
 			$scope.meeting=data;

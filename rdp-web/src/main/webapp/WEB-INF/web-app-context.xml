@@ -1,6 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/context
           http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -11,16 +12,22 @@
           http://www.springframework.org/schema/tx
           http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
           http://www.springframework.org/schema/mvc
-          http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+          http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+          http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 	<mvc:annotation-driven />
-		<mvc:resources mapping="/resources/**/*" location="/resources/" />
+	<mvc:interceptors>
+	<bean class="pl.com.stream.rdp.lib.AuthenticationFilter"/>
+	</mvc:interceptors>
+	<mvc:resources mapping="/resources/**/*" location="/resources/" />
 
 	<context:component-scan base-package="pl.com.stream" />
 	<mongo:repositories base-package="pl.com.stream" />
 
 
-<mongo:db-factory host="ds041248.mongolab.com" port="41248" dbname="rdp" username="admin" password="stream321"/>
+	<mongo:db-factory host="ds041248.mongolab.com" port="41248"
+		dbname="rdp" username="admin" password="stream321" />
 
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
