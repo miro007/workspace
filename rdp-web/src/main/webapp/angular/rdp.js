@@ -16,6 +16,34 @@ rdp.directive('meeting', function() {
 	}
 })
 
+rdp.directive('strinput', function() {
+	return {
+		restrict : 'E',
+		replace : true,
+		transclude : true,
+		scope:{
+			name:'@',
+			label:'@',
+			value:'='
+		},
+		templateUrl : 'partial/input.html'
+
+	}
+})
+rdp.directive('attr', function() {
+	return {
+		restrict : 'E',
+		replace : true,
+		transclude : true,
+		scope:{
+			name:'@',
+			label:'@',
+			value:'='
+		},
+		templateUrl : 'partial/input.html'
+
+	}
+})
 rdp.config(function($httpProvider) {
   var interceptor = ['$rootScope','$q', function(scope, $q) {
 
