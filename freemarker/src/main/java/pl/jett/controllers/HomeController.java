@@ -16,7 +16,7 @@ public class HomeController extends AbstractController {
 	})
 	public String index(final Model model) {
 		model.addAttribute("user", new User("miro"));
-		log.info("/index.htm ");
+		// log.info("/index.htm ");
 		return "home/index";
 	}
 
