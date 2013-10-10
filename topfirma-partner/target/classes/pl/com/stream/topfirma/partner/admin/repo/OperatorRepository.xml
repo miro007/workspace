@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pl.com.stream.topfirma.partner.admin.repo.OperatorRepository">
+	    <select id="findAll" resultMap="Operator" parameterType="map">
+	      SELECT * FROM OPERATOR LIMIT #{rows} OFFSET #{skip}
+	    </select>
+
+
+	    <resultMap type="pl.com.stream.topfirma.partner.admin.repo.Operator" id="Operator">
+   			 <result property="login" column="EMAIL"/>
+   		     <result property="firstName" column="FIRST_NAME"/>
+   		     <result property="lastName" column="LAST_NAME"/>
+	    </resultMap>
+
+</mapper>
