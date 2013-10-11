@@ -29,6 +29,9 @@ public class AdminController {
 	})
 	public String index(final Model model) {
 		model.addAttribute("operators", operatorRepository.findAll(10, 10));
+		model.addAttribute("operators", operatorRepository.findAll(10, 10));
+		model.addAttribute("operators", operatorRepository.findAll(10, 10));
+		model.addAttribute("operators", operatorRepository.findAll(10, 10));
 		return "admin/index";
 	}
 
@@ -38,6 +41,7 @@ public class AdminController {
 		admin.setEmail("miro007@tlen.pl");
 		admin.setPassword("miro007@tlen.pl");
 		model.addAttribute("admin", admin);
+		model.addAttribute("logged", false);
 		return "admin/login";
 	}
 

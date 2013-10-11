@@ -37,7 +37,7 @@
 
 	<bean id="freemarkerViewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
-		p:cache="true" p:suffix=".ftl" p:exposeSpringMacroHelpers="true"
+		p:cache="true" p:suffix=".html" p:exposeSpringMacroHelpers="true"
 		p:exposeRequestAttributes="true" p:exposeSessionAttributes="true"
 		p:allowSessionOverride="true" />
 </beans>

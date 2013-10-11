@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Param;
 public interface OperatorRepository {
 
 	List<Operator> findAll(@Param("rows") int rows, @Param("skip") int skip);
+
+	Operator find(Long id);
 }

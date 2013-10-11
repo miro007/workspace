@@ -3,6 +3,7 @@ package pl.com.stream.topfirma.partner.admin.repo;
 
 public class Operator {
 
+	private Long id;
 	private String login;
 	private String firstName;
 	private String lastName;
@@ -29,5 +30,13 @@ public class Operator {
 
 	public void setLastName(final String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
 	}
 }

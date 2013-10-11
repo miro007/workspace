@@ -17,7 +17,7 @@
 	<context:component-scan base-package="pl.com.stream.topfirma.partner" />
 	<mvc:interceptors>
 	<mvc:interceptor>
-		<mvc:mapping path="/admin/*"/>
+		<mvc:mapping path="/admin/**"/>
 		<bean class="pl.com.stream.topfirma.partner.admin.AdminLoginInterceptor" />
 	</mvc:interceptor>
 	</mvc:interceptors>
