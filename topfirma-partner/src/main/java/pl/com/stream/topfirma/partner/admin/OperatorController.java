@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.com.stream.topfirma.partner.UserContext;
-import pl.com.stream.topfirma.partner.admin.repo.Operator;
 import pl.com.stream.topfirma.partner.admin.repo.OperatorRepository;
 
 @Controller
@@ -30,7 +29,7 @@ public class OperatorController {
 
 	@RequestMapping("/operator/new")
 	public String loginPage(final Model model) {
-		model.addAttribute("operator", new Operator());
+		// model.addAttribute("operator", new Operator());
 		return loginPage(model, null);
 	}
 
