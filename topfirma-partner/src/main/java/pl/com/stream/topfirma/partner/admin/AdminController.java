@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.com.stream.topfirma.partner.UserContext;
 import pl.com.stream.topfirma.partner.admin.repo.OperatorRepository;
@@ -27,11 +28,9 @@ public class AdminController {
 		"/",
 		"index"
 	})
-	public String index(final Model model) {
-		model.addAttribute("operators", operatorRepository.findAll(10, 10));
-		model.addAttribute("operators", operatorRepository.findAll(10, 10));
-		model.addAttribute("operators", operatorRepository.findAll(10, 10));
-		model.addAttribute("operators", operatorRepository.findAll(10, 10));
+	public String index(final Model model, @RequestParam(value = "page", required = false, defaultValue = "0") final int page) {
+		model.addAttribute("operators", operatorRepository.findAll(10, 10 * page));
+		System.out.println(page);
 		return "admin/index";
 	}
 

@@ -28,7 +28,7 @@ public class OperatorController {
 		return "admin/operator";
 	}
 
-	@RequestMapping("/operator")
+	@RequestMapping("/operator/new")
 	public String loginPage(final Model model) {
 		model.addAttribute("operator", new Operator());
 		return loginPage(model, null);
