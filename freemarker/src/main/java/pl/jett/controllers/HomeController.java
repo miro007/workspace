@@ -10,14 +10,18 @@ import pl.jett.domain.User;
 @Controller
 public class HomeController extends AbstractController {
 
-	@RequestMapping(value = {
-		"/",
-		"/index.html"
+	@RequestMapping(value = { "/index"
 	})
 	public String index(final Model model) {
 		model.addAttribute("user", new User("miro"));
 		// log.info("/index.htm ");
 		return "home/index";
+	}
+
+	@RequestMapping(value = { "/",
+	})
+	public String index() {
+		return "index";
 	}
 
 	@RequestMapping("/protected.html")

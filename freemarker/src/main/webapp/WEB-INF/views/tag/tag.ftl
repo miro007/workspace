@@ -1,0 +1,95 @@
+<#macro hello name bean field>
+	witaj ${name} ${bean} ${field}
+	<i>${"${bean+'.'+field}"?eval}</i>
+</#macro>
+
+
+<#macro row columns=2>
+<div class="row">
+	<#assign val="${(12/columns?number)}" />
+ 	<#nested />
+ 	</div>
+</#macro>
+
+
+<#macro input id label value required="true">
+
+	<#if required?starts_with('true')>
+	 	<#assign req='required="required"' />
+	<#else>
+	  	<#assign req='' />
+	</#if>
+
+	 <div class=" col-md-${val} form-group">
+		<label for="${id}">${label}</label>
+	    <input id="${id}" name="${id}" type="text" class="form-control"   value="${value}" ${req}></input>
+	 </div>
+
+</#macro>
+
+
+<#macro spacer>
+ <div class=" col-md-${val} form-group">
+    <label></label>
+   </div>
+</#macro>
+
+
+<#macro comboBox rows>
+    <select>
+	    <#list rows as row>
+	    	<option value="${row.id}">${row.label}</option>
+	    </#list>
+    </select>
+</#macro>
+
+
+<#macro textarea id label value rows required="true">
+
+	<#if required?starts_with('true')>
+	 	<#assign req='required="required"' />
+	<#else>
+	  	<#assign req='' />
+	</#if>
+
+    <div class=" col-md-${val} form-group">
+		<label for="${id}">${label}</label>
+		<textarea id="${id}" name="${id}" type="text" class="form-control" value="${value}" ${req} rows=${rows}/>
+	</div>
+
+</#macro>
+
+<#macro textarea id label value rows required="true">
+
+	<#if required?starts_with('true')>
+	 	<#assign req='required="required"' />
+	<#else>
+	  	<#assign req='' />
+	</#if>
+
+    <div class=" col-md-${val} form-group">
+		<label for="${id}">${label}</label>
+		<textarea id="${id}" name="${id}" class="form-control" rows="${rows}" ${req}>${value}</textarea>
+	</div>
+
+</#macro>
+
+<#macro form actionSave actionDel idDto>
+
+	<form id="saveForm" action="${actionSave}" method="POST">
+		<div id="contentForm">
+			<#nested />
+		</div>
+		<input id="saveButton" type="submit" class="btn btn-primary" value="Zapisz" />
+	</form>
+
+	<form id="deleteForm" action="${actionDel}/${idDto}" method="POST">
+		<input id="deleteButton" type="submit" class="btn btn-primary" value="Usuń" />
+	</form>
+
+	<form id="backForm" action="../list" method="POST">
+		<input id="cancelButton" type="submit" class="btn btn-primary" value="Powrót" />
+	</form>
+
+
+</#macro>
