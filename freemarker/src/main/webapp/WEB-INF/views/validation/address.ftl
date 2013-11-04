@@ -45,7 +45,7 @@
 					</div>
 				</div>
 
-				<#assign cityError><@form.errors path="address.city" element="span" cssClass="help-inline"/></#assign>
+				<#assign cityError><@form.errors  path="address.city" element="span" cssClass="help-inline"/></#assign>
 				<div class="control-group <#if cityError?has_content>error</#if>">
 					<label class="control-label" for="city"><span style="color:red">* </span>City</label>
 					<input type="text" id="city" name="city" placeholder="" value="${(address.city)!}" class="input-xlarge">

@@ -1,0 +1,31 @@
+<#include "tag/header.html"/>
+
+<#include "tag/tag.html"/>
+
+
+
+<@tabDefinition id="demo">
+	<@tabHeader id="form" title="Formularz" />
+	<@tabHeader id="modal" title="Potwierdzenie usuwania" />
+	<@tabHeader id="panel" title="Panel" />
+	<@tabHeader id="table" title="Tabelka" />
+</@tabDefinition>
+
+<@tabContent id="demo">
+	<@tab id="form" >
+		<#include "form.html"/>
+	</@tab>
+	<@tab id="modal" >
+		<button class="btn btn-primary" onclick="showDeleteConfirmDialog('link')">MOdal</button>
+	</@tab>
+	<@tab id="panel" >
+		<@panel title="Naglowek panela" >
+			sadasdsad
+		</@panel>
+	</@tab>
+	<@tab id="table" >
+		<#include "table.html"/>
+	</@tab>
+</@tabContent>
+
+<#include "tag/footer.html"/>

@@ -1,3 +1,4 @@
+
 package pl.com.stream.rdp.controller;
 
 import javax.inject.Inject;
@@ -17,6 +18,11 @@ public class HomeController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
 		return "index";
+	}
+
+	@RequestMapping(value = "/freemarker", method = RequestMethod.GET)
+	public String freemarker() {
+		return "freemarker";
 	}
 
 	@RequestMapping(value = "/app", method = RequestMethod.GET)
