@@ -39,8 +39,7 @@ public class DashboardResource {
 		if (dashboard.getId() != null) {
 			service.updateDashboard(dashboard.getId(), dashboard.getName());
 		} else {
-			service.saveDashboard(userService.getIdAccount(),
-					dashboard.getName());
+			service.saveDashboard(userService.getIdAccount(), dashboard.getName());
 		}
 	}
 

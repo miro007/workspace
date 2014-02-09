@@ -2,11 +2,15 @@ package pl.com.stream.metrics.rest;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.repo.AccountRepository;
@@ -39,9 +43,9 @@ public class MetricResource {
 	@RequestMapping(method = RequestMethod.POST)
 	public void save(@PathVariable Long idDashboard, @RequestBody Metric metric) {
 		if (metric.getId() != null) {
-			metricService.update(metric.getId(), metric.getName());
+			metricService.update(metric.getId(), metric.getName(), metric.getPullLink());
 		} else {
-			metricService.save(idDashboard, metric.getName());
+			metricService.save(idDashboard, metric.getName(), metric.getPullLink());
 		}
 	}
 
@@ -50,4 +54,14 @@ public class MetricResource {
 		repo.delete(id);
 	}
 
+	@RequestMapping(value = "/checkPullLink", method = RequestMethod.GET)
+	public ResponseEntity<String> checkPullLink(@RequestParam String url) {
+		RestTemplate restTemplate = new RestTemplate();
+		try {
+			Double forObject = restTemplate.getForObject(url, Double.class);
+		} catch (Exception e) {
+			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity(HttpStatus.OK);
+	}
 }

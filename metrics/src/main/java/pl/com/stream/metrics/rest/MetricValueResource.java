@@ -1,11 +1,10 @@
 package pl.com.stream.metrics.rest;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.model.MetricValue;
-import pl.com.stream.metrics.repo.DashboardRepository;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.repo.MetricValueRepository;
 import pl.com.stream.metrics.service.MetricService;
@@ -35,5 +33,12 @@ public class MetricValueResource {
 
 		return repo.findByMetric(metric);
 	}
-	
+
+	Random random = new Random();
+
+	@RequestMapping(value = "/example", method = RequestMethod.GET)
+	public Double randomVal() {
+		return random.nextDouble();
+	}
+
 }

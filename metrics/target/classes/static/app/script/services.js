@@ -10,13 +10,17 @@ app.factory('Dashboard', [ '$resource', function($resource) {
 } ]);
 
 app.factory('Metric', [ '$resource', function($resource) {
-	return $resource('../../rest/dashboards/:idDashboard/metrics/:id', {}, {
+	return $resource('../../rest/dashboards/:idDashboard/metrics/:id', {idDashboard:'@idDashboard'}, {
 		'query' : {
 			method : 'GET',
 			isArray : true
 		},
 		'get' : {
 			method : 'GET'
+		},
+		'checkPullLink':{
+			url :'../../rest/dashboards/:idDashboard/metrics/checkPullLink',
+			method:'GET'
 		}
 	});
 } ]);

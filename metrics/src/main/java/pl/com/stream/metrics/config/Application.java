@@ -19,6 +19,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.socket.WebSocketHandler;
 
@@ -28,19 +29,19 @@ import pl.com.stream.metrics.websocket.EchoWebSocketHandler;
 
 @EnableAutoConfiguration
 @Configuration
+@EnableScheduling
 @EnableJpaRepositories(basePackages = "pl.com.stream.metrics.repo")
 @ComponentScan(basePackages = "pl.com.stream.metrics")
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws Throwable {
-		ConfigurableApplicationContext applicationContext = SpringApplication
-				.run(Application.class, args);
+		ConfigurableApplicationContext applicationContext = SpringApplication.run(
+				Application.class, args);
 		applicationContext.getBean(AccountRepository.class).findAll();
 	}
 
 	@Override
-	protected SpringApplicationBuilder configure(
-			SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);
 	}
 
@@ -55,8 +56,8 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-			DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+			JpaVendorAdapter jpaVendorAdapter) {
 		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
 		lef.setDataSource(dataSource);
 		lef.setPersistenceUnitName("app");

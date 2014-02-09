@@ -1,7 +1,7 @@
 <div>
-	{{dashboard.name}}
-	<button class="btn btn-primary " data-toggle="modal"
-		data-target="#saveFooModal" style="float: right">
+	<i>{{dashboard.name}}</i>
+	<button class="btn btn-primary btn-xs" data-toggle="modal"
+		data-target="#metricModal" style="float: right">
 		<span class="glyphicon glyphicon-flash"></span> Create a new Metric
 	</button>
 	<br /> <br />
@@ -13,35 +13,24 @@
 
 
 <!-- modal -->
-<div class="modal fade" id="saveFooModal" tabindex="-1" role="dialog"
-	aria-labelledby="myFooLabel" aria-hidden="true">
+<div class="modal fade" id="metricModal" role="dialog"
+	 aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form name="form" role="form" novalidate class="form-horizontal"
-				ng-submit="create()">
+			<form name="metricForm" role="form" novalidate   class="form-horizontal" ng-submit="create()">
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true" ng-click="clear()">&times;</button>
-					<h4 class="modal-title" id="myFooLabel">Create or edit a
-						dashboard</h4>
+					<h4 class="modal-title" >Create or edit a
+						metric</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="col-sm-4 controll-label">Code</label>
-						<div class="col-sm-8">
-							<input type="text" autofocus="autofocus" class="form-control"
-								name="test" ng-model="metric.code" ng-minlength=1 ng-maxlength=50
-								required size="10">
-						</div>
-
-					</div>
-					<div class="form-group">
 						<label class="col-sm-4 controll-label">Name</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" name="test"
-								ng-model="metric.name" ng-minlength=1 ng-maxlength=50 required
-								size="10">
+							<input type="text" class="form-control" name="name" 
+								ng-model="metric.name" >
 						</div>
 					</div>
 
@@ -55,12 +44,11 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group"  ng-show="metric.type=='pull'" ng-class="{'has-error': !test,'has-success': test}">
+					<div class="form-group"  ng-show="metric.type=='pull'" >
 						<label class="col-sm-4 controll-label">Pull link</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" name="test"  
-								ng-model="metric.pull" ng-minlength=1 ng-maxlength=50 required ng-blur="testPullLink()"
-								size="10">
+							<input type="text" class="form-control" name="type"  
+								ng-model="metric.pullLink" >
 						</div>
 					</div>
 					<div class="form-group" ng-show="metric.type=='push'">
@@ -71,10 +59,11 @@
 								size="10">
 						</div>
 					</div>
+					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal"
 							ng-click="clear()">Cancel</button>
-						<button type="submit" ng-disabled="form.$invalid"
+						<button type="submit" 
 							class="btn btn-primary">Save</button>
 					</div>
 			</form>

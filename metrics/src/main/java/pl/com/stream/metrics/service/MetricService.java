@@ -32,9 +32,10 @@ public class MetricService {
 	@Inject
 	AccountRepository accountRepository;
 
-	public Long save(Long idDashboard, String name) {
+	public Long save(Long idDashboard, String name, String link) {
 		Metric metric = new Metric(name);
 		metric.setDashboard(dashboardRepository.findOne(idDashboard));
+		metric.setPullLink(link);
 		repo.save(metric);
 		return metric.getId();
 	}
@@ -61,9 +62,10 @@ public class MetricService {
 		metricValueRepository.save(metricVal);
 	}
 
-	public void update(Long id, String name) {
+	public void update(Long id, String name, String link) {
 		Metric metric = repo.findOne(id);
 		metric.setName(name);
+		metric.setPullLink(link);
 		repo.save(metric);
 	}
 

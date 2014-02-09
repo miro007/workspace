@@ -10,7 +10,10 @@ import javax.persistence.MappedSuperclass;
 import pl.com.stream.metrics.lib.Context;
 import pl.com.stream.metrics.repo.CommonRepository;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @MappedSuperclass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
