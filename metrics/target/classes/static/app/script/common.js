@@ -34,8 +34,8 @@ Highcharts.setOptions({
 	}
 });
 
-function createChart(values) {
-	var chart = $('#chart').highcharts(
+function createChart(id, values) {
+	var chart = $('#chart'+id).highcharts(
 			{
 				chart : {
 					type : 'spline',
@@ -88,15 +88,11 @@ function createChart(values) {
 	return chart
 }
 
-function createChartSeries(data){
+function createChartSeries(name, data){
+	var series = [];
+	series[0] = {name:name,data:[]}
 	for(i=0;i<data.length;i++){
-		var len =data[i].data.length
-		var element =data[i];
-		data[i]={name:data[i].name, data:[]}
-		for(j=0;j<len;j++) {
-			
-			data[i].data.push([element.data[j].date, element.data[j].value])
-		}
+		series[0].data.push([data[i].date, data[i].value])
 	}
-	return data;
+	return series;
 }

@@ -14,7 +14,5 @@ public interface MetricValueRepository extends
 
 	List<MetricValue> findByMetric(Metric metric);
 
-	@Query("SELECT mv FROM MetricValue mv JOIN  mv.metric m WHERE m.dashboard= ?1")
-	List<List<MetricValue>> findByDashboard(Dashboard dashboard);
 
 }

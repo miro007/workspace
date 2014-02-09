@@ -10,4 +10,6 @@ import pl.com.stream.metrics.model.Dashboard;
 public interface DashboardRepository extends CrudRepository<Dashboard, Long> {
 
 	List<Dashboard> findByAccount(Account account);
+
+	Dashboard findByName(String dashboardCode);
 }

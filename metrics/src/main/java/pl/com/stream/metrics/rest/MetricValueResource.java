@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import pl.com.stream.metrics.model.MetricValue;
 import pl.com.stream.metrics.repo.DashboardRepository;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.repo.MetricValueRepository;
+import pl.com.stream.metrics.service.MetricService;
 
 @RestController
 @RequestMapping("/rest/metricsValue")
@@ -25,25 +27,13 @@ public class MetricValueResource {
 	@Inject
 	MetricRepository metricRepository;
 	@Inject
-	DashboardRepository dashboardRepository;
+	MetricService metricService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<MetricValuePackWO> query(
-			@RequestParam("idDashboard") Long idDashboard) {
-		List<MetricValuePackWO> result = new ArrayList<MetricValuePackWO>();
-		Iterable<Metric> metrics = metricRepository
-				.findByDashboard(dashboardRepository.findOne(idDashboard));
+	public List<MetricValue> query(@RequestParam("idMetric") Long idMetric) {
+		Metric metric = metricRepository.findOne(idMetric);
 
-		for (Metric metric : metrics) {
-			MetricValuePackWO metricValuePackWO = new MetricValuePackWO();
-			metricValuePackWO.setName(metric.getName());
-			List<MetricValue> values = repo.findByMetric(metric);
-			for (MetricValue value : values) {
-				metricValuePackWO.getData().add(
-						new MetricValueWO(value.getDate(), value.getValue()));
-			}
-			result.add(metricValuePackWO);
-		}
-		return result;
+		return repo.findByMetric(metric);
 	}
+	
 }

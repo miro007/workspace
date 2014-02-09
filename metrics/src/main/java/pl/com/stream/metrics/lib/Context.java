@@ -65,11 +65,11 @@ public class Context implements ApplicationContextAware {
 			dashboardRepository.save(dashboard);
 			Random random = new Random(1000);
 			for (int k = 0; k < 8; k++) {
-				Metric metric = new Metric(k + "" + i, k + "" + i);
+				Metric metric = new Metric(k + "" + i);
 				metric.setDashboard(dashboard);
 				metricRepository.save(metric);
 				Date start = new Date(new Date().getTime() - 1000000010);
-				for (int v = 0; v < 100; v++) {
+				for (int v = 0; v < 5; v++) {
 					MetricValue metricValue = new MetricValue();
 					metricValue.setMetric(metric);
 					metricValue.setDate(new Date(start.getTime() + 3600000 + v

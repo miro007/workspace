@@ -13,18 +13,23 @@ app.directive('grid', function() {
 	}
 })
 
-app.directive('metric', function() {
+app.directive('metricChart', function() {
 	return {
 		restrict : 'E',
 		replace : true,
 		transclude : true,
 		controller : function(MetricValue, $scope) {
+			
 			MetricValue.query({
 				idMetric : $scope.metric.id
-			}, function(data){createChart($scope.metric.id, createArray(data))})
+			}, function(data){
+					var id = $scope.metric.id;
+					var series=createChartSeries($scope.metric.name,data);
+					createChart(id, series)
+					})
 
 		},
-		templateUrl : 'components/metric.html',
+		templateUrl : 'components/metricChart.html',
 		scope : {
 			metric : '=data',
 		},

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.stream.metrics.model.Dashboard;
 import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.model.MetricValue;
+import pl.com.stream.metrics.repo.AccountRepository;
 import pl.com.stream.metrics.repo.DashboardRepository;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.repo.MetricValueRepository;
@@ -26,12 +27,15 @@ public class MetricService {
 	@Inject
 	DashboardRepository dashboardRepository;
 
-	public Long save(Long idDashboard, String name, String code) {
-		Metric metric = new Metric(name, code);
+	@Inject
+	UserService userService;
+	@Inject
+	AccountRepository accountRepository;
 
-		Dashboard dashboard = dashboardRepository.findOne(idDashboard);
-		dashboard.addMetric(metric);
-
+	public Long save(Long idDashboard, String name) {
+		Metric metric = new Metric(name);
+		metric.setDashboard(dashboardRepository.findOne(idDashboard));
+		repo.save(metric);
 		return metric.getId();
 	}
 
@@ -44,5 +48,43 @@ public class MetricService {
 		metricVal.setValue(value);
 
 		metricValueRepository.save(metricVal);
+	}
+
+	public void addValue(String code, Double value) {
+		Metric metric = repo.findByName(code);
+
+		MetricValue metricVal = new MetricValue();
+		metricVal.setMetric(metric);
+		metricVal.setDate(new Date());
+		metricVal.setValue(value);
+
+		metricValueRepository.save(metricVal);
+	}
+
+	public void update(Long id, String name) {
+		Metric metric = repo.findOne(id);
+		metric.setName(name);
+		repo.save(metric);
+	}
+
+	public void addValue(String dashboardName, String metricName, Double value) {
+		Dashboard dashboard = dashboardRepository.findByName(metricName);
+		if (dashboard == null) {
+			dashboard = new Dashboard(dashboardName);
+			dashboardRepository.save(dashboard);
+		}
+
+		Metric metric = repo.findByName(metricName);
+		if (metric == null) {
+			metric = new Metric(metricName);
+		}
+		metric.setDashboard(dashboard);
+		repo.save(metric);
+		MetricValue metricValue = new MetricValue();
+		metricValue.setMetric(metric);
+		metricValue.setValue(value);
+
+		metricValueRepository.save(metricValue);
+
 	}
 }

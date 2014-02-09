@@ -19,7 +19,7 @@ public class Dashboard extends BaseEntity {
 	private Account account;
 	@JsonIgnore
 	@OneToMany(mappedBy = "dashboard", cascade = CascadeType.ALL)
-	private Set<Metric> metricSet = new HashSet<Metric>();
+	private final Set<Metric> metricSet = new HashSet<Metric>();
 
 	public Dashboard() {
 	}

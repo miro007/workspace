@@ -5,15 +5,12 @@ app.factory('Dashboard', [ '$resource', function($resource) {
 		'query' : {
 			method : 'GET',
 			isArray : true
-		},
-		'get' : {
-			method : 'GET'
 		}
 	});
 } ]);
 
 app.factory('Metric', [ '$resource', function($resource) {
-	return $resource('../../rest/metrics/:id', {}, {
+	return $resource('../../rest/dashboards/:idDashboard/metrics/:id', {}, {
 		'query' : {
 			method : 'GET',
 			isArray : true

@@ -2,15 +2,17 @@
 
 /* App Module */
 
-var app = angular.module('app', [ 'ngResource', 'ngRoute', 'ngCookies' ]);
+var app = angular.module('app', [ 'ngResource', 'ngRoute', 'ngCookies', ]);
 
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {
 		templateUrl : 'partials/home.html',
-		controller : 'HomeController'
-	}).when('/home/:idDashboard', {
+	}).when('/dashboards/:idDashboard', {
 		templateUrl : 'partials/dashboard.html',
-		controller : 'DashboardController'
+		controller : 'DashboardDetailsController'
+	}).when('/dashboards', {
+		templateUrl : 'partials/dashboards.html',
+		controller : 'DashboardsController'
 	}).otherwise({
 		redirectTo : '/home'
 	});

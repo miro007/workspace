@@ -15,7 +15,7 @@ public class Account extends BaseEntity {
 	private String email;
 	private String password;
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-	private Set<Dashboard> dashboardSet = new HashSet<Dashboard>();
+	private final Set<Dashboard> dashboardSet = new HashSet<Dashboard>();
 
 	public Account() {
 	}

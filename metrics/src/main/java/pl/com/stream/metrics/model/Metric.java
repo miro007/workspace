@@ -1,6 +1,5 @@
 package pl.com.stream.metrics.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -9,28 +8,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Metric extends BaseEntity {
 
-	@Column(unique = true)
-	private String code;
-
 	private String name;
+
+	private String pullLink;
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(optional = true)
 	private Dashboard dashboard;
 
 	public Metric() {
 	}
 
-	public Metric(String name, String code) {
+	public Metric(String name) {
 		this.name = name;
-		this.code = code;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getName() {
@@ -47,6 +36,14 @@ public class Metric extends BaseEntity {
 
 	public void setDashboard(Dashboard dashboard) {
 		this.dashboard = dashboard;
+	}
+
+	public String getPullLink() {
+		return pullLink;
+	}
+
+	public void setPullLink(String pullLink) {
+		this.pullLink = pullLink;
 	}
 
 }

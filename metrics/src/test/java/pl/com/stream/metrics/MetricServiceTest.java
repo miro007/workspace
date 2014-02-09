@@ -45,7 +45,7 @@ public class MetricServiceTest {
 		Long idDashboard = service.saveDashboard(createAccount, "nazwa");
 
 		// when
-		Long idMetric = metricService.save(idDashboard, "name", "code");
+		Long idMetric = metricService.save(idDashboard, "name");
 
 		// then
 		assertThat(dashboardRepository.findOne(idDashboard).getMetricSet())
@@ -74,7 +74,7 @@ public class MetricServiceTest {
 		Long createAccount = service.createAccount(email, email);
 
 		Long idDashboard = service.saveDashboard(createAccount, "nazwa");
-		Long idMetric = metricService.save(idDashboard, "name", "code");
+		Long idMetric = metricService.save(idDashboard, "name");
 
 		// when
 		metricService.addValue(idMetric, 1.2);

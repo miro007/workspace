@@ -1,19 +1,83 @@
 <div>
+	{{dashboard.name}}
+	<button class="btn btn-primary " data-toggle="modal"
+		data-target="#saveFooModal" style="float: right">
+		<span class="glyphicon glyphicon-flash"></span> Create a new Metric
+	</button>
+	<br /> <br />
+	<grid items="metrics" cols="6"> <metric-chart data="element" />
+	</grid>
 
-				<h2>Metrics</h2>
-				<button class="btn btn-primary btn-lg" data-toggle="modal"
-					data-target="#saveFooModal">
-					<span class="glyphicon glyphicon-flash"></span> Create a new Metric
-				</button>
-				<br/>
-				<br/>
-  <!-- 
-		<grid items="metrics" cols="6">
-        	<metric data="element"/>
-       </grid>
-        
-        </div>
-         -->
-         
-         <div id="chart" ng-controller="Chart" style="height: 600px"/>
+</div>
+</div>
+
+
+<!-- modal -->
+<div class="modal fade" id="saveFooModal" tabindex="-1" role="dialog"
+	aria-labelledby="myFooLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="form" role="form" novalidate class="form-horizontal"
+				ng-submit="create()">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" ng-click="clear()">&times;</button>
+					<h4 class="modal-title" id="myFooLabel">Create or edit a
+						dashboard</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-sm-4 controll-label">Code</label>
+						<div class="col-sm-8">
+							<input type="text" autofocus="autofocus" class="form-control"
+								name="test" ng-model="metric.code" ng-minlength=1 ng-maxlength=50
+								required size="10">
+						</div>
+
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 controll-label">Name</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="test"
+								ng-model="metric.name" ng-minlength=1 ng-maxlength=50 required
+								size="10">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="col-sm-4 controll-label">Data provider type</label>
+						<div class="col-sm-8">
+							<select class="form-control" ng-model="metric.type">
+								<option value="push">Push</option>
+								<option value="pull">Pull</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group"  ng-show="metric.type=='pull'" ng-class="{'has-error': !test,'has-success': test}">
+						<label class="col-sm-4 controll-label">Pull link</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="test"  
+								ng-model="metric.pull" ng-minlength=1 ng-maxlength=50 required ng-blur="testPullLink()"
+								size="10">
+						</div>
+					</div>
+					<div class="form-group" ng-show="metric.type=='push'">
+						<label class="col-sm-4 controll-label">Push link</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" name="test"
+								value="rest/metricValue?metricCode={{metric.code}}&value=" readonly="readonly"
+								size="10">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							ng-click="clear()">Cancel</button>
+						<button type="submit" ng-disabled="form.$invalid"
+							class="btn btn-primary">Save</button>
+					</div>
+			</form>
+		</div>
+	</div>
 </div>
