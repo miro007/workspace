@@ -20,7 +20,7 @@ import pl.com.stream.metrics.repo.DashboardRepository;
 import pl.com.stream.metrics.service.AccountService;
 
 /**
- * test
+ * test2
  * 
  * @author Mirek
  * 
