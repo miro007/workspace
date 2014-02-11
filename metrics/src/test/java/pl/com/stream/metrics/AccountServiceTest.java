@@ -19,6 +19,12 @@ import pl.com.stream.metrics.repo.AccountRepository;
 import pl.com.stream.metrics.repo.DashboardRepository;
 import pl.com.stream.metrics.service.AccountService;
 
+/**
+ * test
+ * 
+ * @author Mirek
+ * 
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
