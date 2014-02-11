@@ -47,8 +47,7 @@ public class MetricAddingValueTest {
 
 	@Before
 	public void setup() {
-		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(
-				metricValueResource).build();
+		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(metricValueResource).build();
 	}
 
 	@Test
@@ -58,36 +57,34 @@ public class MetricAddingValueTest {
 		Double value = 1.23;
 
 		// when
-		List values = metricValueRepository.findByMetric(metricRepository
-				.findOne(idMetric));
+		List values = metricValueRepository.findByMetric(metricRepository.findOne(idMetric));
 
-		restUserMockMvc.perform(
-				get("/rest/metricsValue/add?idMetric=1&value=" + value)).andExpect(
-				status().isOk());
+		restUserMockMvc.perform(get("/rest/metrics/values/add?idMetric=1&value=" + value))
+				.andExpect(status().isOk());
 
 		// then
-		List newValues = metricValueRepository.findByMetric(metricRepository
-				.findOne(idMetric));
+		List newValues = metricValueRepository.findByMetric(metricRepository.findOne(idMetric));
 		assertThat(values.size()).isLessThan(newValues.size());
 
 	}
 
 	@Test
-	public void shouldAddDynamicMetricValue() throws Exception {
+	public void shouldAddByNameMetricValue() throws Exception {
 		// given
 		Long idMetric = 1L;
 		Double value = 1.23;
 
 		// when
-		assertThat(dashboardRepository.findByName("dash")).isNull();
+		assertThat(dashboardRepository.findByAccountAndName(userService.getAccount(), "dash"))
+				.isNull();
 
-		restUserMockMvc
-				.perform(
-						get("/rest/metricsValue/add?dashboardName=dash&metricName=metric&value="
-								+ value)).andExpect(status().isOk());
+		restUserMockMvc.perform(
+				get("/rest/metrics/values/addByName?dashboardName=dash&metricName=metric&value="
+						+ value)).andExpect(status().isOk());
 
 		// then
-		Dashboard dashboard = dashboardRepository.findByName("dash");
+		Dashboard dashboard = dashboardRepository.findByAccountAndName(userService.getAccount(),
+				"dash");
 		assertThat(dashboard).isNotNull();
 
 		Metric metric = dashboard.getMetricSet().iterator().next();
@@ -96,4 +93,5 @@ public class MetricAddingValueTest {
 		assertThat(values.get(0).getValue()).isEqualTo(value);
 
 	}
+
 }

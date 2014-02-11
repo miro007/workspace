@@ -2,6 +2,7 @@ package pl.com.stream.metrics.rest;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 
@@ -17,7 +18,7 @@ import pl.com.stream.metrics.repo.MetricValueRepository;
 import pl.com.stream.metrics.service.MetricService;
 
 @RestController
-@RequestMapping("/rest/metricsValue")
+@RequestMapping("/rest/metrics/values")
 public class MetricValueResource {
 	@Inject
 	MetricValueRepository repo;
@@ -41,4 +42,15 @@ public class MetricValueResource {
 		return random.nextDouble();
 	}
 
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public void add(@RequestParam Long idMetric, @RequestParam Double value) {
+		metricService.addValue(idMetric, value);
+	}
+
+	@RequestMapping(value = "/addByName", method = RequestMethod.GET)
+	public void add(String dashboardName, @RequestParam String metricName,
+			@RequestParam Double value) {
+		Future<Void> addValue = metricService.addValue(dashboardName, metricName, value);
+		System.out.println(addValue);
+	}
 }

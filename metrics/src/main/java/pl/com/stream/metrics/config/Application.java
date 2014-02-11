@@ -19,6 +19,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.socket.WebSocketHandler;
@@ -30,6 +31,7 @@ import pl.com.stream.metrics.websocket.EchoWebSocketHandler;
 @EnableAutoConfiguration
 @Configuration
 @EnableScheduling
+@EnableAsync
 @EnableJpaRepositories(basePackages = "pl.com.stream.metrics.repo")
 @ComponentScan(basePackages = "pl.com.stream.metrics")
 public class Application extends SpringBootServletInitializer {

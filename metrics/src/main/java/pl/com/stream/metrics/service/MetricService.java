@@ -1,12 +1,16 @@
 package pl.com.stream.metrics.service;
 
 import java.util.Date;
+import java.util.concurrent.Future;
 
 import javax.inject.Inject;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pl.com.stream.metrics.model.Account;
 import pl.com.stream.metrics.model.Dashboard;
 import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.model.MetricValue;
@@ -40,19 +44,12 @@ public class MetricService {
 		return metric.getId();
 	}
 
-	public void addValue(Long idMetric, Double value) {
-		Metric metric = repo.findOne(idMetric);
-
-		MetricValue metricVal = new MetricValue();
-		metricVal.setMetric(metric);
-		metricVal.setDate(new Date());
-		metricVal.setValue(value);
-
-		metricValueRepository.save(metricVal);
+	public Long save(Long idDashboard, String name) {
+		return save(idDashboard, name, null);
 	}
 
-	public void addValue(String code, Double value) {
-		Metric metric = repo.findByName(code);
+	public void addValue(Long idMetric, Double value) {
+		Metric metric = repo.findOne(idMetric);
 
 		MetricValue metricVal = new MetricValue();
 		metricVal.setMetric(metric);
@@ -69,24 +66,36 @@ public class MetricService {
 		repo.save(metric);
 	}
 
-	public void addValue(String dashboardName, String metricName, Double value) {
-		Dashboard dashboard = dashboardRepository.findByName(metricName);
+	@Async
+	public Future<Void> addValue(String dashboardName, String metricName, Double value) {
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Long idAccount = userService.getIdAccount();
+		Account account = accountRepository.findOne(idAccount);
+		Dashboard dashboard = dashboardRepository.findByAccountAndName(account, dashboardName);
 		if (dashboard == null) {
 			dashboard = new Dashboard(dashboardName);
+			dashboard.setAccount(account);
 			dashboardRepository.save(dashboard);
 		}
 
-		Metric metric = repo.findByName(metricName);
+		Metric metric = repo.findByDashboardAndName(dashboard, metricName);
 		if (metric == null) {
 			metric = new Metric(metricName);
+			metric.setDashboard(dashboard);
+
+			repo.save(metric);
 		}
-		metric.setDashboard(dashboard);
-		repo.save(metric);
+
 		MetricValue metricValue = new MetricValue();
 		metricValue.setMetric(metric);
 		metricValue.setValue(value);
 
 		metricValueRepository.save(metricValue);
-
+		return new AsyncResult<Void>(null);
 	}
 }

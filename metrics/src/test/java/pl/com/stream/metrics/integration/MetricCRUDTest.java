@@ -6,8 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.text.DecimalFormat;
-
 import javax.inject.Inject;
 
 import org.junit.Before;
@@ -24,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.com.stream.metrics.config.Application;
+import pl.com.stream.metrics.repo.DashboardRepository;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.rest.MetricResource;
 import pl.com.stream.metrics.rest.MetricValueResource;
@@ -36,6 +35,8 @@ import pl.com.stream.metrics.service.UserService;
 @WebAppConfiguration
 @Transactional
 public class MetricCRUDTest {
+	@Inject
+	DashboardRepository dashboardRepository;
 	@Inject
 	UserService userService;
 	@Inject
@@ -52,8 +53,8 @@ public class MetricCRUDTest {
 
 	@Before
 	public void setup() {
-		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(metricResource,
-				metricValueResource).build();
+		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(metricResource, metricValueResource)
+				.build();
 	}
 
 	// HttpHeaders httpHeaders = new HttpHeaders();
@@ -76,10 +77,8 @@ public class MetricCRUDTest {
 		// when
 		restUserMockMvc
 				.perform(
-						post("/rest/dashboards/1/metrics")
-								.content(metricObject).contentType(
-										MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
+						post("/rest/dashboards/1/metrics").content(metricObject).contentType(
+								MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk());
 
 		// then
@@ -88,11 +87,8 @@ public class MetricCRUDTest {
 
 		// then not mixed different dashboards
 		restUserMockMvc
-				.perform(
-						get("/rest/dashboards/2/metrics").contentType(
-								MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().isOk());
+				.perform(get("/rest/dashboards/2/metrics").contentType(MediaType.APPLICATION_JSON))
+				.andDo(MockMvcResultHandlers.print()).andExpect(status().isOk());
 	}
 
 	@Test
@@ -105,18 +101,21 @@ public class MetricCRUDTest {
 		String metric = "{\"name\":\"" + newName + "\"}";
 
 		// when
-		assertThat(metricRepository.findByName(newName)).isNull();
+		assertThat(
+				metricRepository.findByDashboardAndName(dashboardRepository.findOne(1L), newName))
+				.isNull();
 
 		restUserMockMvc
 				.perform(
-						post("/rest/dashboards/1/metrics").content(metric)
-								.contentType(MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
+						post("/rest/dashboards/1/metrics").content(metric).contentType(
+								MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk());
 
 		// then
 
-		assertThat(metricRepository.findByName(newName)).isNotNull();
+		assertThat(
+				metricRepository.findByDashboardAndName(dashboardRepository.findOne(1L), newName))
+				.isNotNull();
 
 	}
 
@@ -127,17 +126,18 @@ public class MetricCRUDTest {
 		Long idMetric = metricService.save(1L, name, null);
 
 		// when
-		assertThat(metricRepository.findByName(name)).isNotNull();
+		assertThat(metricRepository.findByDashboardAndName(dashboardRepository.findOne(1L), name))
+				.isNotNull();
 
 		restUserMockMvc
 				.perform(
-						delete("/rest/dashboards/1/metrics/" + idMetric)
-								.contentType(MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
+						delete("/rest/dashboards/1/metrics/" + idMetric).contentType(
+								MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk());
 
 		// then
-		assertThat(metricRepository.findByName(name)).isNull();
+		assertThat(metricRepository.findByDashboardAndName(dashboardRepository.findOne(1L), name))
+				.isNull();
 
 	}
 
@@ -148,9 +148,8 @@ public class MetricCRUDTest {
 
 		// when
 		restUserMockMvc.perform(
-				get("/rest/dashboards/1/metrics/checkPullLink?url=" + link)
-						.contentType(MediaType.APPLICATION_JSON)).andExpect(
-				status().isInternalServerError());
+				get("/rest/dashboards/1/metrics/checkPullLink?url=" + link).contentType(
+						MediaType.APPLICATION_JSON)).andExpect(status().isInternalServerError());
 
 		// then
 
@@ -161,12 +160,11 @@ public class MetricCRUDTest {
 		// given
 
 		// when
-		MvcResult returnDta = restUserMockMvc
-				.perform(get("/rest/metricsValue/example"))
+		MvcResult returnDta = restUserMockMvc.perform(get("/rest/metrics/values/example"))
 				.andExpect(status().isOk()).andReturn();
 
 		// then
 		String contentAsString = returnDta.getResponse().getContentAsString();
-assertThat(Double.parseDouble(contentAsString)).isNotNull();
+		assertThat(Double.parseDouble(contentAsString)).isNotNull();
 	}
 }

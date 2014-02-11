@@ -25,7 +25,7 @@ app.factory('Metric', [ '$resource', function($resource) {
 	});
 } ]);
 app.factory('MetricValue', [ '$resource', function($resource) {
-	return $resource('../../rest/metricsValue/:id', {}, {
+	return $resource('../../rest/metrics/values/:id', {}, {
 		'query' : {
 			method : 'GET',
 			isArray : true

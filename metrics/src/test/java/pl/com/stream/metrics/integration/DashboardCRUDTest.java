@@ -43,8 +43,7 @@ public class DashboardCRUDTest {
 
 	@Before
 	public void setup() {
-		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(
-				dashboardResource).build();
+		this.restUserMockMvc = MockMvcBuilders.standaloneSetup(dashboardResource).build();
 	}
 
 	// HttpHeaders httpHeaders = new HttpHeaders();
@@ -67,9 +66,8 @@ public class DashboardCRUDTest {
 		// when
 		restUserMockMvc
 				.perform(
-						post("/rest/dashboards").content(dashboardObject)
-								.contentType(MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
+						post("/rest/dashboards").content(dashboardObject).contentType(
+								MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk());
 
 		// then
@@ -83,24 +81,24 @@ public class DashboardCRUDTest {
 		// given
 		String name = "dashName";
 		String newName = "newName";
-		Long dashboard = accountService.saveDashboard(
-				userService.getIdAccount(), name);
+		Long dashboard = accountService.saveDashboard(userService.getIdAccount(), name);
 
 		String dashboardObject = "{\"name\":\"" + newName + "\"}";
 
 		// when
-		assertThat(dashboardRepository.findByName(newName)).isNull();
+		assertThat(dashboardRepository.findByAccountAndName(userService.getAccount(), newName))
+				.isNull();
 
 		restUserMockMvc
 				.perform(
-						post("/rest/dashboards").content(dashboardObject)
-								.contentType(MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
+						post("/rest/dashboards").content(dashboardObject).contentType(
+								MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk());
 
 		// then
 
-		assertThat(dashboardRepository.findByName(newName)).isNotNull();
+		assertThat(dashboardRepository.findByAccountAndName(userService.getAccount(), newName))
+				.isNotNull();
 
 	}
 
@@ -108,21 +106,21 @@ public class DashboardCRUDTest {
 	public void shouldDeleteDashboard() throws Exception {
 		// given
 		String name = "dashName";
-		Long dashboard = accountService.saveDashboard(
-				userService.getIdAccount(), name);
+		Long dashboard = accountService.saveDashboard(userService.getIdAccount(), name);
 
 		// when
-		assertThat(dashboardRepository.findByName(name)).isNotNull ();
+		assertThat(dashboardRepository.findByAccountAndName(userService.getAccount(), name))
+				.isNotNull();
 
 		restUserMockMvc
 				.perform(
 						delete("/rest/dashboards/" + dashboard).contentType(
-								MediaType.APPLICATION_JSON))
-				.andDo(MockMvcResultHandlers.print())
+								MediaType.APPLICATION_JSON)).andDo(MockMvcResultHandlers.print())
 				.andExpect(status().isOk());
 
 		// then
-		assertThat(dashboardRepository.findByName(name)).isNull();
+		assertThat(dashboardRepository.findByAccountAndName(userService.getAccount(), name))
+				.isNull();
 
 	}
 }

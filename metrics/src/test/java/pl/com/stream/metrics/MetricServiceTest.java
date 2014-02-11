@@ -37,7 +37,7 @@ public class MetricServiceTest {
 	MetricValueRepository metricValueRepository;
 
 	@Test
-	public void shouldCreateMetricWithNameAndCode() {
+	public void shouldCreateMetricWithName() {
 		// given
 		String email = "demo@tlen.pl";
 		Long createAccount = service.createAccount(email, email);
@@ -48,8 +48,7 @@ public class MetricServiceTest {
 		Long idMetric = metricService.save(idDashboard, "name");
 
 		// then
-		assertThat(dashboardRepository.findOne(idDashboard).getMetricSet())
-				.hasSize(1);
+		assertThat(dashboardRepository.findOne(idDashboard).getMetricSet()).hasSize(1);
 	}
 
 	@Test
@@ -80,9 +79,8 @@ public class MetricServiceTest {
 		metricService.addValue(idMetric, 1.2);
 
 		// then
-		assertThat(
-				metricValueRepository.findByMetric(metricRepository
-						.findOne(idMetric))).hasSize(1);
+		assertThat(metricValueRepository.findByMetric(metricRepository.findOne(idMetric))).hasSize(
+				1);
 	}
 
 	@Test

@@ -39,7 +39,7 @@ function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParam
 	
 	$scope.initMetrics = function(){
 		Metric.query({'idDashboard':idDashboard},function(result){
-			$scope.metrics	=	convertToGrid(result,2);
+			$scope.metrics	=	convertToGrid(result,3);
 		});
 	}
 	$scope.initMetrics();

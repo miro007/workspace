@@ -11,5 +11,5 @@ public interface DashboardRepository extends CrudRepository<Dashboard, Long> {
 
 	List<Dashboard> findByAccount(Account account);
 
-	Dashboard findByName(String dashboardCode);
+	Dashboard findByAccountAndName(Account account, String dashboardCode);
 }

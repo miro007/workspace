@@ -40,7 +40,6 @@ public class AccountServiceTest {
 
 	@Test
 	public void shouldCreateAccount() {
-		assertThat(repository.count()).isZero();
 		// given
 		String email = "demo@tlen.pl";
 		service.createAccount(email, email);
@@ -54,7 +53,6 @@ public class AccountServiceTest {
 
 	@Test(expected = DataIntegrityViolationException.class)
 	public void shouldNotCreateTwoAccountWithTheSameEmail() {
-		assertThat(repository.count()).isZero();
 		// given
 		String email = "demo@tlen.pl";
 		service.createAccount(email, email);
@@ -69,7 +67,6 @@ public class AccountServiceTest {
 	@Test
 	public void shouldAddDashboardToAccount() {
 		// given
-		assertThat(repository.count()).isZero();
 		String email = "demo@tlen.pl";
 		Long createAccount = service.createAccount(email, email);
 
@@ -83,7 +80,6 @@ public class AccountServiceTest {
 	@Test
 	public void shouldManageDashboard() {
 		// given
-		assertThat(repository.count()).isZero();
 		String email = "demo@tlen.pl";
 		Long createAccount = service.createAccount(email, email);
 
@@ -98,21 +94,18 @@ public class AccountServiceTest {
 		service.updateDashboard(dashboard, name);
 
 		// then
-		assertThat(dashboardRepository.findOne(dashboard).getName()).isEqualTo(
-				name);
+		assertThat(dashboardRepository.findOne(dashboard).getName()).isEqualTo(name);
 
 		// when
 		service.deleteDashboard(dashboard);
 
 		// then
 		assertThat(dashboardRepository.findOne(dashboard)).isNull();
-		assertThat(repository.findOne(createAccount).getDashboardSet())
-				.hasSize(0);
+		assertThat(repository.findOne(createAccount).getDashboardSet()).hasSize(0);
 	}
 
 	@Test
 	public void shouldRemoveAccount() {
-		assertThat(repository.count()).isZero();
 		// given
 		String email = "demo@tlen.pl";
 		Long createAccount = service.createAccount(email, email);

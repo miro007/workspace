@@ -11,7 +11,7 @@ public interface MetricRepository extends CrudRepository<Metric, Long> {
 
 	Iterable<Metric> findByDashboard(Dashboard findOne);
 
-	Metric findByName(String code);
+	Metric findByDashboardAndName(Dashboard dashboard, String code);
 
 	List<Metric> findByPullLinkIsNotNull();
 
