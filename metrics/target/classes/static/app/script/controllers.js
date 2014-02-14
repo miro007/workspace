@@ -78,7 +78,7 @@ function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParam
     
 
 	
-//	$scope.location = $location.absUrl()
+
 	
 
 
@@ -86,4 +86,25 @@ function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParam
 	
 }
 
-
+function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routeParams, $location){
+	var idDashboard=$routeParams.idDashboard
+	var idMetric=$routeParams.idMetric
+	
+	if(idMetric != undefined){
+		$scope.idMetric = idMetric;
+		$scope.metric = Metric.get({idDashboard:idDashboard,id:idMetric});
+	}
+	
+	$scope.location = $location.absUrl()
+	
+	$scope.loadValues = function(id){
+		MetricValue.query({
+			idMetric : id
+		}, function(data){
+				var id = $scope.metric.id;
+				var series=createChartSeries($scope.metric.name, data);
+				createChart(id, series)
+		})
+		
+	}		
+}
