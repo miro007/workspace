@@ -1,8 +1,24 @@
-<div class="panel panel-info" isShow>
+
+<div class="panel panel-info" >
 <div class="panel-heading">
-    <h3 class="panel-title">({{metric.id}} {{metric.code}}){{metric.name}}</h3>
+    <h3 class="panel-title">({{metric.id}} {{metric.code}}){{metric.name}}
+	<div class="dropdown pull-right">
+        <a id="drop4" role="button" data-toggle="dropdown" href="">Settings <b class="caret"></b></a>
+        <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+          <li role="presentation"><a role="menuitem" tabindex="-1"  href="" ng-click="update({id:metric.id})">Edit</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="{{location}}">Zoom</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="http://twitter.com/fat">Add alert</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="del({id:metric.id})">Delete</a></li>
+        </ul>
+      </vdic>
+      
+ 
+      
+
+    </h3>
   </div>
-  <div class="panel-body">
+  <div class="panel-body" ng-init="loadValues(metric.id)">
    <div id="chart{{metric.id}}" style="height: 200px"/>
   </div>
 </div>

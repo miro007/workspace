@@ -35,7 +35,7 @@ public class MetricValueResource {
 		return repo.findByMetric(metric);
 	}
 
-	Random random = new Random();
+	Random random = new Random(100);
 
 	@RequestMapping(value = "/example", method = RequestMethod.GET)
 	public Double randomVal() {
@@ -50,7 +50,8 @@ public class MetricValueResource {
 	@RequestMapping(value = "/addByName", method = RequestMethod.GET)
 	public void add(String dashboardName, @RequestParam String metricName,
 			@RequestParam Double value) {
-		Future<Void> addValue = metricService.addValue(dashboardName, metricName, value);
+		Future<Void> addValue = metricService.addValue(dashboardName,
+				metricName, value);
 		System.out.println(addValue);
 	}
 }

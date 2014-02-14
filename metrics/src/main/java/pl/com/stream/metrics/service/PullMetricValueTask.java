@@ -23,8 +23,9 @@ public class PullMetricValueTask {
 		RestTemplate restTemplate = new RestTemplate();
 		List<Metric> metrics = metricRepository.findByPullLinkIsNotNull();
 		for (Metric metric : metrics) {
-			Double value = restTemplate.getForObject(metric.getPullLink(), Double.class);
-			metricService.addValue(metric.getId(), value);
+			String value = restTemplate.getForObject(metric.getPullLink(),
+					String.class);
+			metricService.addValue(metric.getId(), Double.parseDouble(value));
 		}
 	}
 }

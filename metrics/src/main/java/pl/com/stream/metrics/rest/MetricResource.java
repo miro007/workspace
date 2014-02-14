@@ -42,16 +42,12 @@ public class MetricResource {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public void save(@PathVariable Long idDashboard, @RequestBody Metric metric) {
-		if (metric.getId() != null) {
-			metricService.update(metric.getId(), metric.getName(), metric.getPullLink());
-		} else {
-			metricService.save(idDashboard, metric.getName(), metric.getPullLink());
-		}
+		metricService.save(idDashboard, metric);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable Long id) {
-		repo.delete(id);
+		metricService.delete(id);
 	}
 
 	@RequestMapping(value = "/checkPullLink", method = RequestMethod.GET)

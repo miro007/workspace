@@ -1,25 +1,32 @@
-<div>
+<div >
 	<i>{{dashboard.name}}</i>
 	<button class="btn btn-primary btn-xs" data-toggle="modal"
 		data-target="#metricModal" style="float: right">
 		<span class="glyphicon glyphicon-flash"></span> Create a new Metric
 	</button>
 	<br /> <br />
-	<grid items="metrics" cols="6"> <metric-chart data="element" />
-	</grid>
+	
+	<div class="row" >
+		<div ng-repeat="item in metrics" style="width: 100%;">
+			<div class="col-md-6 col-lg-4"
+				ng-repeat="element in item">
+				<metric-chart data="element" update-action="update(id)" delete-action="delete(id)"/>
+			</div>
+		</div>
+	</div>
 
-</div>
+
 </div>
 
 
 <!-- modal -->
 <div class="modal fade" id="metricModal" role="dialog"
-	 aria-hidden="true">
+	 aria-hidden="true" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form name="metricForm" role="form" novalidate   class="form-horizontal" ng-submit="create()">
+			<form name="metricForm" role="form" novalidate   class="form-horizontal" ng-submit="save()">
 
-				<div class="modal-header">
+				<div class="modal-header" >
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true" ng-click="clear()">&times;</button>
 					<h4 class="modal-title" >Create or edit a
@@ -39,19 +46,19 @@
 						<label class="col-sm-4 controll-label">Data provider type</label>
 						<div class="col-sm-8">
 							<select class="form-control" ng-model="metric.type">
-								<option value="push">Push</option>
-								<option value="pull">Pull</option>
+								<option value="PUSH">Push</option>
+								<option value="PULL">Pull</option>
 							</select>
 						</div>
 					</div>
-					<div class="form-group"  ng-show="metric.type=='pull'" >
+					<div class="form-group"  ng-show="metric.type=='PULL'" >
 						<label class="col-sm-4 controll-label">Pull link</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" name="type"  
 								ng-model="metric.pullLink" >
 						</div>
 					</div>
-					<div class="form-group" ng-show="metric.type=='push'">
+					<div class="form-group" ng-show="metric.type=='PUSH'">
 						<label class="col-sm-4 controll-label">Push link</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" name="test"

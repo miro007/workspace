@@ -7,7 +7,7 @@ function DashboardsController(Dashboard, User, $scope, $location){
 		};
 		
 	$scope.dashboards = Dashboard.query();
-    $scope.create = function () {
+    $scope.save = function () {
     	Dashboard.save($scope.dash,
             function () {
         		$scope.dashboards = Dashboard.query();
@@ -35,17 +35,22 @@ function DashboardsController(Dashboard, User, $scope, $location){
 
 function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParams){
 	var idDashboard=$routeParams.idDashboard
+	
+
 	$scope.dashboard = Dashboard.get({id:idDashboard})
 	
 	$scope.initMetrics = function(){
 		Metric.query({'idDashboard':idDashboard},function(result){
-			$scope.metrics	=	convertToGrid(result,3);
+			$scope.metrics	=	convertToGrid(result, 3);
 		});
 	}
 	$scope.initMetrics();
-    $scope.create = function () {
+	
+
+	
+	$scope.save = function () {
     	var data =$scope.metric;
-    	data.idDashboard=idDashboard;
+    	data.idDashboard = idDashboard;
     	Metric.save(data,
             function () {
     			$scope.initMetrics();
@@ -55,20 +60,29 @@ function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParam
     };
 
     $scope.update = function (id) {
-        $scope.metric = Metric.get({id: id});
+        $scope.metric = Metric.get({idDashboard:idDashboard, id: id});
         $('#metricModal').modal('show');
     };
+    
 
     $scope.delete = function (id) {
-    	Metric.delete({id: id},
+    	Metric.delete({idDashboard:idDashboard,id: id},
             function () {
     			$scope.initMetrics();
             });
     };
 
     $scope.clear = function () {
-        $scope.metric = {};
+        $scope.metric = {name:'', pullLink :'/rest/metrics/values/example'};
     };
+    
+
+	
+//	$scope.location = $location.absUrl()
+	
+
+
+
 	
 }
 

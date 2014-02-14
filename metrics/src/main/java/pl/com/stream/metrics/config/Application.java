@@ -30,20 +30,23 @@ import pl.com.stream.metrics.websocket.EchoWebSocketHandler;
 
 @EnableAutoConfiguration
 @Configuration
-@EnableScheduling
 @EnableAsync
+@EnableScheduling
 @EnableJpaRepositories(basePackages = "pl.com.stream.metrics.repo")
 @ComponentScan(basePackages = "pl.com.stream.metrics")
 public class Application extends SpringBootServletInitializer {
+	// implements
+	// AsyncConfigurer, SchedulingConfigurer
 
 	public static void main(String[] args) throws Throwable {
-		ConfigurableApplicationContext applicationContext = SpringApplication.run(
-				Application.class, args);
+		ConfigurableApplicationContext applicationContext = SpringApplication
+				.run(Application.class, args);
 		applicationContext.getBean(AccountRepository.class).findAll();
 	}
 
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(
+			SpringApplicationBuilder application) {
 		return application.sources(Application.class);
 	}
 
@@ -58,8 +61,8 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
-			JpaVendorAdapter jpaVendorAdapter) {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+			DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
 		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
 		lef.setDataSource(dataSource);
 		lef.setPersistenceUnitName("app");

@@ -1,6 +1,7 @@
 package pl.com.stream.metrics.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.stream.metrics.model.Account;
 import pl.com.stream.metrics.model.Dashboard;
 import pl.com.stream.metrics.model.Metric;
+import pl.com.stream.metrics.model.MetricLinkType;
 import pl.com.stream.metrics.model.MetricValue;
 import pl.com.stream.metrics.repo.AccountRepository;
 import pl.com.stream.metrics.repo.DashboardRepository;
@@ -67,7 +69,8 @@ public class MetricService {
 	}
 
 	@Async
-	public Future<Void> addValue(String dashboardName, String metricName, Double value) {
+	public Future<Void> addValue(String dashboardName, String metricName,
+			Double value) {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
@@ -76,7 +79,8 @@ public class MetricService {
 		}
 		Long idAccount = userService.getIdAccount();
 		Account account = accountRepository.findOne(idAccount);
-		Dashboard dashboard = dashboardRepository.findByAccountAndName(account, dashboardName);
+		Dashboard dashboard = dashboardRepository.findByAccountAndName(account,
+				dashboardName);
 		if (dashboard == null) {
 			dashboard = new Dashboard(dashboardName);
 			dashboard.setAccount(account);
@@ -97,5 +101,21 @@ public class MetricService {
 
 		metricValueRepository.save(metricValue);
 		return new AsyncResult<Void>(null);
+	}
+
+	public void delete(Long id) {
+		Metric metric = repo.findOne(id);
+		List<MetricValue> list = metricValueRepository.findByMetric(metric);
+		metricValueRepository.delete(list);
+		repo.delete(metric);
+
+	}
+
+	public void save(Long idDashboard, Metric metric) {
+		if (metric.getType() == MetricLinkType.PUSH) {
+			metric.setPullLink(null);
+		}
+		metric.setDashboard(dashboardRepository.findOne(idDashboard));
+		repo.save(metric);
 	}
 }

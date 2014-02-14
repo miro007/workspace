@@ -11,6 +11,8 @@ public class Metric extends BaseEntity {
 	private String name;
 
 	private String pullLink;
+	private MetricLinkType type;
+
 	@JsonIgnore
 	@ManyToOne(optional = true)
 	private Dashboard dashboard;
@@ -44,6 +46,14 @@ public class Metric extends BaseEntity {
 
 	public void setPullLink(String pullLink) {
 		this.pullLink = pullLink;
+	}
+
+	public MetricLinkType getType() {
+		return type;
+	}
+
+	public void setType(MetricLinkType type) {
+		this.type = type;
 	}
 
 }
