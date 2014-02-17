@@ -75,15 +75,11 @@ function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParam
     $scope.clear = function () {
         $scope.metric = {name:'', pullLink :'/rest/metrics/values/example'};
     };
-    
 
 	
-
-	
-
-
-
-	
+}
+function MenuController($location, $scope){
+	$scope.location = $location.absUrl()
 }
 
 function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routeParams, $location){
@@ -103,8 +99,29 @@ function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routePa
 		}, function(data){
 				var id = $scope.metric.id;
 				var series=createChartSeries($scope.metric.name, data);
-				createChart(id, series)
-		})
+				
+				createStockChart(id, series)	;
+		})	
+			
+//		MetricValue.query({
+//			idMetric : 3
+//		}, function(data){
+//				var id = $scope.metric.id;
+//				var series=createChartSeries($scope.metric.name, data);
+//				MetricValue.query({
+//					idMetric : 4
+//				}, function(data){
+//						var id2 = $scope.metric.id;
+//						var series2=createChartSeries($scope.metric.name, data);
+//						
+//						var sum = series
+//						
+//						series[1] = series2[0];
+//						createStockChart(id, series)	;
+//				})	
+//				
+//		})
+		
 		
 	}		
 }

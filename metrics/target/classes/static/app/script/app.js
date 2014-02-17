@@ -16,6 +16,8 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/dashboards/:idDashboard/metrics/:idMetric', {
 		templateUrl : 'partials/metric.html',
 		controller : 'MetricController'
+	}).when('/dashboards/:idDashboard/metrics', {
+		redirectTo : '/dashboards/:idDashboard'
 	}).otherwise({
 		redirectTo : '/home'
 	});
