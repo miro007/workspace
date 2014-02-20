@@ -79,8 +79,9 @@ public class MetricServiceTest {
 		metricService.addValue(idMetric, 1.2);
 
 		// then
-		assertThat(metricValueRepository.findByMetric(metricRepository.findOne(idMetric))).hasSize(
-				1);
+		assertThat(
+				metricValueRepository.findByMetricOrderByDateAsc(metricRepository.findOne(idMetric)))
+				.hasSize(1);
 	}
 
 	@Test

@@ -57,13 +57,15 @@ public class MetricAddingValueTest {
 		Double value = 1.23;
 
 		// when
-		List values = metricValueRepository.findByMetric(metricRepository.findOne(idMetric));
+		List values = metricValueRepository.findByMetricOrderByDateAsc(metricRepository
+				.findOne(idMetric));
 
 		restUserMockMvc.perform(get("/rest/metrics/values/add?idMetric=1&value=" + value))
 				.andExpect(status().isOk());
 
 		// then
-		List newValues = metricValueRepository.findByMetric(metricRepository.findOne(idMetric));
+		List newValues = metricValueRepository.findByMetricOrderByDateAsc(metricRepository
+				.findOne(idMetric));
 		assertThat(values.size()).isLessThan(newValues.size());
 
 	}
@@ -89,7 +91,7 @@ public class MetricAddingValueTest {
 
 		Metric metric = dashboard.getMetricSet().iterator().next();
 
-		List<MetricValue> values = metricValueRepository.findByMetric(metric);
+		List<MetricValue> values = metricValueRepository.findByMetricOrderByDateAsc(metric);
 		assertThat(values.get(0).getValue()).isEqualTo(value);
 
 	}

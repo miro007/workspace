@@ -1,6 +1,8 @@
 package pl.com.stream.metrics.lib;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
@@ -58,23 +60,28 @@ public class Context implements ApplicationContextAware {
 		Account account = new Account("a", "b");
 		repo.save(account);
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 1; i++) {
 			Dashboard dashboard = new Dashboard(i + "");
 			dashboard.setAccount(account);
 			dashboardRepository.save(dashboard);
 			Random random = new Random(1000);
-			for (int k = 0; k < 5; k++) {
+			for (int k = 0; k < 1; k++) {
 				Metric metric = new Metric(k + "" + i);
 				metric.setDashboard(dashboard);
 				metricRepository.save(metric);
 				Date start = new Date(new Date().getTime() - 1000000010);
-				for (int v = 0; v < 10; v++) {
+				List<MetricValue> values = new ArrayList<MetricValue>();
+				for (int v = 0; v < 100; v++) {
 					MetricValue metricValue = new MetricValue();
 					metricValue.setMetric(metric);
-					metricValue.setDate(new Date(start.getTime() + 3600000 + v * 100001));
-					metricValue.setValue(random.nextDouble() * v * k);
-					metricValueRepository.save(metricValue);
+					metricValue.setDate(new Date(start.getTime() + 3600000 + v * 1000000));
+					metricValue.setValue(random.nextDouble());
+					values.add(metricValue);
+					if (v % 100 == 0) {
+
+					}
 				}
+				metricValueRepository.save(values);
 			}
 		}
 	}

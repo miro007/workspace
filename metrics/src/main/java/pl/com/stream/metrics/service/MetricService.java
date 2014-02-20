@@ -69,8 +69,7 @@ public class MetricService {
 	}
 
 	@Async
-	public Future<Void> addValue(String dashboardName, String metricName,
-			Double value) {
+	public Future<Void> addValue(String dashboardName, String metricName, Double value) {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
@@ -79,8 +78,7 @@ public class MetricService {
 		}
 		Long idAccount = userService.getIdAccount();
 		Account account = accountRepository.findOne(idAccount);
-		Dashboard dashboard = dashboardRepository.findByAccountAndName(account,
-				dashboardName);
+		Dashboard dashboard = dashboardRepository.findByAccountAndName(account, dashboardName);
 		if (dashboard == null) {
 			dashboard = new Dashboard(dashboardName);
 			dashboard.setAccount(account);
@@ -105,7 +103,7 @@ public class MetricService {
 
 	public void delete(Long id) {
 		Metric metric = repo.findOne(id);
-		List<MetricValue> list = metricValueRepository.findByMetric(metric);
+		List<MetricValue> list = metricValueRepository.findByMetricOrderByDateAsc(metric);
 		metricValueRepository.delete(list);
 		repo.delete(metric);
 

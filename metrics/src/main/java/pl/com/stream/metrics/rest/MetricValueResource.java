@@ -32,7 +32,7 @@ public class MetricValueResource {
 	public List<MetricValue> query(@RequestParam("idMetric") Long idMetric) {
 		Metric metric = metricRepository.findOne(idMetric);
 
-		return repo.findByMetric(metric);
+		return repo.findByMetricOrderByDateAsc(metric);
 	}
 
 	Random random = new Random(100);
@@ -50,8 +50,7 @@ public class MetricValueResource {
 	@RequestMapping(value = "/addByName", method = RequestMethod.GET)
 	public void add(String dashboardName, @RequestParam String metricName,
 			@RequestParam Double value) {
-		Future<Void> addValue = metricService.addValue(dashboardName,
-				metricName, value);
+		Future<Void> addValue = metricService.addValue(dashboardName, metricName, value);
 		System.out.println(addValue);
 	}
 }

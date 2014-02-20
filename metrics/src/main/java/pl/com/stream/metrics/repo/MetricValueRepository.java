@@ -7,9 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.model.MetricValue;
 
-public interface MetricValueRepository extends
-		CrudRepository<MetricValue, Long> {
+public interface MetricValueRepository extends CrudRepository<MetricValue, Long> {
 
-	List<MetricValue> findByMetric(Metric metric);
+	List<MetricValue> findByMetricOrderByDateAsc(Metric metric);
 
 }

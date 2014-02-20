@@ -131,7 +131,11 @@ function createStockChart(id,values){
 	        selected: 0
 	    },
 
-
+	    xAxis : {
+			events : {
+				afterSetExtremes : afterSetExtremes
+			}
+		},
 		 legend: {
 		        enabled: true,
 		    },
@@ -139,6 +143,22 @@ function createStockChart(id,values){
 
 	});
 }
+function afterSetExtremes(e) {
+alert(e)
+	var currentExtremes = this.getExtremes(),
+		range = e.max - e.min,
+		chart = $('#container').highcharts();
+		
+	chart.showLoading('Loading data from server...');
+	$.getJSON('http://www.highcharts.com/samples/data/from-sql.php?start='+ Math.round(e.min) +
+			'&end='+ Math.round(e.max) +'&callback=?', function(data) {
+		
+		chart.series[0].setData(data);
+		chart.hideLoading();
+	});
+	
+}
+
 
 function createChartSeries(name, data){
 	var series = [];
