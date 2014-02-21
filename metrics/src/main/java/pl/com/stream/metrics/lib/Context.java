@@ -41,7 +41,8 @@ public class Context implements ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
 		this.applicationContext = applicationContext;
 		this.emDelegate = em;
 	}
@@ -71,10 +72,11 @@ public class Context implements ApplicationContextAware {
 				metricRepository.save(metric);
 				Date start = new Date(new Date().getTime() - 1000000010);
 				List<MetricValue> values = new ArrayList<MetricValue>();
-				for (int v = 0; v < 100; v++) {
+				for (int v = 0; v < 100000; v++) {
 					MetricValue metricValue = new MetricValue();
 					metricValue.setMetric(metric);
-					metricValue.setDate(new Date(start.getTime() + 3600000 + v * 1000000));
+					metricValue.setDate(new Date(start.getTime() + 3600000 + v
+							* 1000000));
 					metricValue.setValue(random.nextDouble());
 					values.add(metricValue);
 					if (v % 100 == 0) {

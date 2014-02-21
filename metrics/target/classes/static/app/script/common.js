@@ -35,7 +35,7 @@ Highcharts.setOptions({
 });
 
 function createChart(id, values) {
-	var chart = $('#chart'+id).highcharts(
+	var chart = $('#chart' + id).highcharts(
 			{
 				chart : {
 					type : 'spline',
@@ -88,83 +88,82 @@ function createChart(id, values) {
 	return chart
 }
 
-function createStockChart(id,values){
+function createStockChart(id, values) {
 	// Create a timer
-	var start = + new Date();
+	var start = +new Date();
 
 	// Create the chart
-	$('#chart'+id).highcharts('StockChart', {
-	    chart: {
-			events: {
-				load: function(chart) {
-						console.log('Built chart at '+ (new Date() - start) +'ms')
-				}
-			},
-			zoomType: 'x'
-	    },
+	$('#chart' + id).highcharts(
+			'StockChart',
+			{
+				chart : {
+					events : {
+						load : function(chart) {
+							console.log('Built chart at '
+									+ (new Date() - start) + 'ms')
+						}
+					},
+					zoomType : 'x'
+				},
 
-	    rangeSelector: {
-	        buttons: [{
-	            type: 'day',
-	            count: 1,
-	            text: '1d'
-	        }, {
-	            type: 'week',
-	            count: 1,
-	            text: '1w'
-	        }, {
-	            type: 'month',
-	            count: 1,
-	            text: '1m'
-	        }, {
-	            type: 'month',
-	            count: 6,
-	            text: '6m'
-	        }, {
-	            type: 'year',
-	            count: 1,
-	            text: '1y'
-	        }, {
-	            type: 'all',
-	            text: 'All'
-	        }],
-	        selected: 0
-	    },
+				rangeSelector : {
+					buttons : [ {
+						type : 'day',
+						count : 1,
+						text : '1d'
+					}, {
+						type : 'week',
+						count : 1,
+						text : '1w'
+					}, {
+						type : 'month',
+						count : 1,
+						text : '1m'
+					}, {
+						type : 'month',
+						count : 6,
+						text : '6m'
+					}, {
+						type : 'year',
+						count : 1,
+						text : '1y'
+					}, {
+						type : 'all',
+						text : 'All'
+					} ],
+					selected : 0
+				},
 
-	    xAxis : {
-			events : {
-				afterSetExtremes : afterSetExtremes
-			}
-		},
-		 legend: {
-		        enabled: true,
-		    },
-		series: values
+				xAxis : {
+					events : {
+						afterSetExtremes : function(e) {
+							chart = $('#chart' + id).highcharts();
+							range = e.max - e.min, 
+									
 
-	});
-}
-function afterSetExtremes(e) {
-alert(e)
-	var currentExtremes = this.getExtremes(),
-		range = e.max - e.min,
-		chart = $('#container').highcharts();
-		
-	chart.showLoading('Loading data from server...');
-	$.getJSON('http://www.highcharts.com/samples/data/from-sql.php?start='+ Math.round(e.min) +
-			'&end='+ Math.round(e.max) +'&callback=?', function(data) {
-		
-		chart.series[0].setData(data);
-		chart.hideLoading();
-	});
-	
+							chart.showLoading('Loading data from server...');
+
+							chart.series[0].setData([1,1]);
+							chart.hideLoading();
+						}
+					}
+				},
+				legend : {
+					enabled : true,
+				},
+				series : values
+
+			});
 }
 
-
-function createChartSeries(name, data){
+function createChartSeries(name, data) {
 	var series = [];
-	series[0] = {name:name,data:[]}
-	for(i=0;i<data.length;i++){
-		series[0].data.push([data[i].date, data[i].value])
+	series[0] = {
+		name : name,
+		data : []
+	}
+	for (i = 0; i < data.length; i++) {
+		series[0].data.push([ data[i].date, data[i].value ])
 	}
 	return series;
 }

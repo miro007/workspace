@@ -1,6 +1,7 @@
 package pl.com.stream.metrics.rest;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.Future;
 
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.model.MetricValue;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.repo.MetricValueRepository;
@@ -29,10 +29,12 @@ public class MetricValueResource {
 	MetricService metricService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<MetricValue> query(@RequestParam("idMetric") Long idMetric) {
-		Metric metric = metricRepository.findOne(idMetric);
+	public Collection<MetricValue> query(
+			@RequestParam("idMetric") Long idMetric,
+			@RequestParam(value = "start", required = false) Date start,
+			@RequestParam(value = "end", required = false) Date end) {
 
-		return repo.findByMetricOrderByDateAsc(metric);
+		return metricService.findValues(idMetric, start, end);
 	}
 
 	Random random = new Random(100);
@@ -50,7 +52,8 @@ public class MetricValueResource {
 	@RequestMapping(value = "/addByName", method = RequestMethod.GET)
 	public void add(String dashboardName, @RequestParam String metricName,
 			@RequestParam Double value) {
-		Future<Void> addValue = metricService.addValue(dashboardName, metricName, value);
+		Future<Void> addValue = metricService.addValue(dashboardName,
+				metricName, value);
 		System.out.println(addValue);
 	}
 }
