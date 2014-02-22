@@ -29,14 +29,14 @@ public class MetricValueResource {
 	MetricService metricService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Collection<MetricValue> query(
-			@RequestParam("idMetric") Long idMetric,
-			@RequestParam(value = "start", required = false) Date start,
-			@RequestParam(value = "end", required = false) Date end) {
-
-		return metricService.findValues(idMetric, start, end);
+	public Collection<MetricValue> query(@RequestParam("idMetric") Long idMetric,
+			@RequestParam(value = "start", required = false) Long start,
+			@RequestParam(value = "end", required = false) Long end) {
+		Date s = start != null && start > 100000 ? new Date(start) : null;
+		Date e = end != null && end > 100000 ? new Date(end) : null;
+		return metricService.findValues(idMetric, s, e);
 	}
-
+ 
 	Random random = new Random(100);
 
 	@RequestMapping(value = "/example", method = RequestMethod.GET)
@@ -52,8 +52,7 @@ public class MetricValueResource {
 	@RequestMapping(value = "/addByName", method = RequestMethod.GET)
 	public void add(String dashboardName, @RequestParam String metricName,
 			@RequestParam Double value) {
-		Future<Void> addValue = metricService.addValue(dashboardName,
-				metricName, value);
+		Future<Void> addValue = metricService.addValue(dashboardName, metricName, value);
 		System.out.println(addValue);
 	}
 }

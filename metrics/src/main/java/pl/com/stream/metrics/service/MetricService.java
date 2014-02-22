@@ -81,18 +81,16 @@ public class MetricService {
 	}
 
 	@Async
-	public Future<Void> addValue(String dashboardName, String metricName,
-			Double value) {
+	public Future<Void> addValue(String dashboardName, String metricName, Double value) {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		Long idAccount = userService.getIdAccount();
 		Account account = accountRepository.findOne(idAccount);
-		Dashboard dashboard = dashboardRepository.findByAccountAndName(account,
-				dashboardName);
+		Dashboard dashboard = dashboardRepository.findByAccountAndName(account, dashboardName);
 		if (dashboard == null) {
 			dashboard = new Dashboard(dashboardName);
 			dashboard.setAccount(account);
@@ -117,8 +115,7 @@ public class MetricService {
 
 	public void delete(Long id) {
 		Metric metric = repo.findOne(id);
-		List<MetricValue> list = metricValueRepository
-				.findByMetricOrderByDateAsc(metric);
+		List<MetricValue> list = metricValueRepository.findByMetricOrderByDateAsc(metric);
 		metricValueRepository.delete(list);
 		repo.delete(metric);
 
@@ -135,8 +132,7 @@ public class MetricService {
 	@PersistenceContext
 	EntityManager em;
 
-	public Collection<MetricValue> findValues(Long idMetric, Date start,
-			Date end) {
+	public Collection<MetricValue> findValues(Long idMetric, Date start, Date end) {
 		Query query = getMetricValue(idMetric, start, end);
 		List<MetricValue> resultList = query.getResultList();
 		if (resultList.size() < MAX_PACK_SZIE) {
@@ -158,11 +154,16 @@ public class MetricService {
 
 	}
 
+	public static void main(String[] args) {
+		System.out.println(new Date(1393094211748L));
+		System.out.println(new Date(1393099532917L));
+
+	}
+
 	private void connectValues(Map<Date, MetricValue> resultList) {
 		Map<Date, MetricValue> transform = new TreeMap<Date, MetricValue>();
 
-		Iterator<Entry<Date, MetricValue>> iterator = resultList.entrySet()
-				.iterator();
+		Iterator<Entry<Date, MetricValue>> iterator = resultList.entrySet().iterator();
 		while (iterator.hasNext()) {
 			try {
 				MetricValue val1 = iterator.next().getValue();
@@ -173,8 +174,7 @@ public class MetricService {
 				Long d2 = val2.getDate().getTime();
 				Double v2 = val2.getValue();
 
-				MetricValue metricValue = new MetricValue(new Date(
-						(int) (d1 + d2) / 2), (v1 + v2) / 2);
+				MetricValue metricValue = new MetricValue(new Date((d1 + d2) / 2), (v1 + v2) / 2);
 				transform.put(metricValue.getDate(), metricValue);
 			} catch (Exception e) {
 			}
