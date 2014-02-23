@@ -100,7 +100,7 @@ function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routePa
 				var id = $scope.metric.id;
 				var series=createChartSeries($scope.metric.name, data);
 				
-				createStockChart(id, series)	;
+				createStockChart(id, series, MetricValue);
 		})	
 			
 //		MetricValue.query({

@@ -22,7 +22,7 @@ public class MetricValueAdderTask {
 	Calendar inCalendar = Calendar.getInstance();
 	Random r = new Random(10000);
 
-	@Scheduled(fixedRate = 5000)
+	@Scheduled(fixedRate = 100)
 	public void addValue() {
 		inCalendar.add(Calendar.MINUTE, 1);
 		MetricValue metricValue = new MetricValue();

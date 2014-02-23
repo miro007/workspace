@@ -35,7 +35,7 @@ Highcharts.setOptions({
 });
 
 function createChart(id, values) {
-	var chart = $('#chart' + id).highcharts(
+	var chart = $('#chart'+id).highcharts(
 			{
 				chart : {
 					type : 'spline',
@@ -43,7 +43,7 @@ function createChart(id, values) {
 					marginRight : 10,
 					events : {
 						load : function() {
-
+ 
 							// set up the updating of the chart each second
 							series = this.series[0];
 						}
@@ -82,88 +82,112 @@ function createChart(id, values) {
 				exporting : {
 					enabled : false
 				},
+				minRange: 3600 * 1000,
 				series : values
 
 			});
 	return chart
 }
 
-function createStockChart(id, values) {
+function createStockChart(id,values, MetricValue){
 	// Create a timer
-	var start = +new Date();
+	var start = + new Date();
 
 	// Create the chart
-	$('#chart' + id).highcharts(
-			'StockChart',
-			{
-				chart : {
-					events : {
-						load : function(chart) {
-							console.log('Built chart at '
-									+ (new Date() - start) + 'ms')
-						}
-					},
-					zoomType : 'x'
-				},
+	$('#chart'+id).highcharts('StockChart', {
+	    chart: {
+			events: {
+				load: function(chart) {
+						console.log('Built chart at '+ (new Date() - start) +'ms')
+				}
+			},
+			zoomType: 'x'
+	    },
 
-				rangeSelector : {
-					buttons : [ {
-						type : 'day',
-						count : 1,
-						text : '1d'
-					}, {
-						type : 'week',
-						count : 1,
-						text : '1w'
-					}, {
-						type : 'month',
-						count : 1,
-						text : '1m'
-					}, {
-						type : 'month',
-						count : 6,
-						text : '6m'
-					}, {
-						type : 'year',
-						count : 1,
-						text : '1y'
-					}, {
-						type : 'all',
-						text : 'All'
-					} ],
-					selected : 0
-				},
+	    rangeSelector: {
+	        buttons: [{
+	            type: 'day',
+	            count: 1,
+	            text: '1d'
+	        }, {
+	            type: 'week',
+	            count: 1,
+	            text: '1w'
+	        }, {
+	            type: 'month',
+	            count: 1,
+	            text: '1m'
+	        }, {
+	            type: 'month',
+	            count: 6,
+	            text: '6m'
+	        }, {
+	            type: 'year',
+	            count: 1,
+	            text: '1y'
+	        }, {
+	            type: 'all',
+	            text: 'All'
+	        }],
+	        selected: 0
+	    },	
+	    navigator : {
+			adaptToUpdatedData: false
+	    },
+	    scrollbar: {
+			liveRedraw: false
+		},
 
-				xAxis : {
-					events : {
-						afterSetExtremes : function(e) {
-							chart = $('#chart' + id).highcharts();
-							range = e.max - e.min, 
-									
-
-							chart.showLoading('Loading data from server...');
-
-							chart.series[0].setData([1,1]);
+	    xAxis : {
+			events : {
+				afterSetExtremes : function(e){
+					chart = $('#chart'+id).highcharts();
+					
+					chart.showLoading('Loading data from server...');
+					
+					MetricValue.query({
+						idMetric : id,
+						start:Math.round(e.min),
+						end: Math.round(e.max)
+					}, function(data){
+							var result =createChartSeries('name',data)
+							var d=result[0].data
+							chart.series[0].setData(d);
 							chart.hideLoading();
-						}
-					}
-				},
-				legend : {
-					enabled : true,
-				},
-				series : values
+					})	
+					
+				}
+			}
+		},
+		 legend: {
+		        enabled: true,
+		    },
+		series: values
 
-			});
+	});
+}
+function afterSetExtremes(e) {
+alert(e)
+	var currentExtremes = this.getExtremes(),
+		range = e.max - e.min,
+		chart = $('#container').highcharts();
+		
+	chart.showLoading('Loading data from server...');
+	$.getJSON('http://www.highcharts.com/samples/data/from-sql.php?start='+ Math.round(e.min) +
+			'&end='+ Math.round(e.max) +'&callback=?', function(data) {
+		
+		chart.series[0].setData(data);
+		chart.hideLoading();
+	});
+	
 }
 
-function createChartSeries(name, data) {
+
+function createChartSeries(name, data){
 	var series = [];
-	series[0] = {
-		name : name,
-		data : []
-	}
-	for (i = 0; i < data.length; i++) {
-		series[0].data.push([ data[i].date, data[i].value ])
+	series[0] = {name:name,data:[]}
+	for(i=0;i<data.length;i++){
+		series[0].data.push([data[i].date, data[i].value])
 	}
 	return series;
 }

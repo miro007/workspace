@@ -89,7 +89,7 @@ function createChart(id, values) {
 	return chart
 }
 
-function createStockChart(id,values,MetricValue){
+function createStockChart(id,values, MetricValue){
 	// Create a timer
 	var start = + new Date();
 

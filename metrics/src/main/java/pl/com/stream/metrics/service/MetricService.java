@@ -87,7 +87,7 @@ public class MetricService {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		Long idAccount = userService.getIdAccount();
 		Account account = accountRepository.findOne(idAccount);
 		Dashboard dashboard = dashboardRepository.findByAccountAndName(account, dashboardName);
@@ -108,6 +108,7 @@ public class MetricService {
 		MetricValue metricValue = new MetricValue();
 		metricValue.setMetric(metric);
 		metricValue.setValue(value);
+		metricValue.setDate(new Date());
 
 		metricValueRepository.save(metricValue);
 		return new AsyncResult<Void>(null);
