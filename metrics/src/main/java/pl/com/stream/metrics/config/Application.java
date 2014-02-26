@@ -12,7 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -56,8 +58,21 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
+	@Profile("dev")
 	public DataSource dataSource() {
 		return new EmbeddedDatabaseBuilder().setType(H2).build();
+	}
+
+	@Bean
+	@Profile("prod")
+	public DataSource dataSourceProd() {
+		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+		dataSource.setDriverClass(org.postgresql.Driver.class);
+		dataSource.setUsername("demo");
+		dataSource.setUrl("jdbc:postgresql://topfirma-dev:5432/demo");
+		dataSource.setPassword("demo");
+
+		return dataSource;
 	}
 
 	@Bean
@@ -72,11 +87,22 @@ public class Application extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public JpaVendorAdapter jpaVendorAdapter() {
+	@Profile("dev")
+	public JpaVendorAdapter h2JPAAdapter() {
 		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
 		hibernateJpaVendorAdapter.setShowSql(true);
 		hibernateJpaVendorAdapter.setGenerateDdl(true);
 		hibernateJpaVendorAdapter.setDatabase(Database.H2);
+		return hibernateJpaVendorAdapter;
+	}
+
+	@Bean
+	@Profile("prod")
+	public JpaVendorAdapter postgresqlJPAAdapter() {
+		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+		hibernateJpaVendorAdapter.setShowSql(true);
+		hibernateJpaVendorAdapter.setGenerateDdl(true);
+		hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
 		return hibernateJpaVendorAdapter;
 	}
 

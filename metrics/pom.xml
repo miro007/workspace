@@ -6,7 +6,6 @@
     <groupId>pl.com.stream</groupId>
     <artifactId>metrics</artifactId>
     <version>0.1.0</version>
- <packaging>war</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -14,6 +13,12 @@
     </parent>
 
     <dependencies>
+    <dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>postgresql</artifactId>
+	<version>9.2-1003-jdbc4</version>
+</dependency>
+            
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -100,7 +105,7 @@
     </dependencies>
 
     <properties>
-        <start-class>pl.com.stream.config.Application</start-class>
+        <start-class>pl.com.stream.metrics.config.Application</start-class>
     </properties>
 
     <build>

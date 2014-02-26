@@ -35,6 +35,7 @@ Highcharts.setOptions({
 });
 
 function createChart(id, values) {
+	$(document).ready(function(){
 	var chart = $('#chart'+id).highcharts(
 			{
 				chart : {
@@ -87,6 +88,7 @@ function createChart(id, values) {
 
 			});
 	return chart
+	})
 }
 
 function createStockChart(id,values, MetricValue){
