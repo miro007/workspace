@@ -95,7 +95,7 @@ function createStockChart(id,values, MetricValue){
 	// Create a timer
 	var start = + new Date();
 
-	// Create the chart
+	$(document).ready(function(){
 	$('#chart'+id).highcharts('StockChart', {
 	    chart: {
 			events: {
@@ -167,6 +167,7 @@ function createStockChart(id,values, MetricValue){
 		series: values
 
 	});
+	})
 }
 function afterSetExtremes(e) {
 alert(e)

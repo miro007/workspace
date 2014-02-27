@@ -68,9 +68,9 @@ public class Application extends SpringBootServletInitializer {
 	public DataSource dataSourceProd() {
 		SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
 		dataSource.setDriverClass(org.postgresql.Driver.class);
-		dataSource.setUsername("demo");
-		dataSource.setUrl("jdbc:postgresql://topfirma-dev:5432/demo");
-		dataSource.setPassword("demo");
+		dataSource.setUsername("metric");
+		dataSource.setPassword("metric");
+		dataSource.setUrl("jdbc:postgresql://192.168.72.169:5432/metric");
 
 		return dataSource;
 	}

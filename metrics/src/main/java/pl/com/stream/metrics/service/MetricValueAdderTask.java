@@ -1,6 +1,7 @@
 package pl.com.stream.metrics.service;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -22,12 +23,11 @@ public class MetricValueAdderTask {
 	Calendar inCalendar = Calendar.getInstance();
 	Random r = new Random(10000);
 
-	@Scheduled(fixedRate = 100)
+	@Scheduled(fixedRate = 60000)
 	public void addValue() {
-		inCalendar.add(Calendar.MINUTE, 1);
 		MetricValue metricValue = new MetricValue();
-		metricValue.setMetric(metricRepository.findOne(1L));
-		metricValue.setDate(inCalendar.getTime());
+		metricValue.setMetric(metricRepository.findAll().iterator().next());
+		metricValue.setDate(new Date());
 		metricValue.setValue(r.nextDouble());
 		metricValueRepository.save(metricValue);
 	}

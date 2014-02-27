@@ -4,12 +4,12 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
- 
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
- 
+
 import pl.com.stream.metrics.model.Account;
 import pl.com.stream.metrics.model.Dashboard;
 import pl.com.stream.metrics.model.Metric;
@@ -35,7 +35,8 @@ public class Context implements ApplicationContextAware {
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
 		this.applicationContext = applicationContext;
 		this.emDelegate = em;
 	}
@@ -51,15 +52,22 @@ public class Context implements ApplicationContextAware {
 
 	@PostConstruct
 	public void initData() {
-		Account account = new Account("a", "b");
-		repo.save(account);
+		Account account = repo.findOne(1L);
+		if (account == null) {
+			account = new Account("a", "b");
+			repo.save(account);
+		}
 
 		for (int i = 0; i < 1; i++) {
-			Dashboard dashboard = new Dashboard(i + "");
-			dashboard.setAccount(account);
-			dashboardRepository.save(dashboard);
-			for (int k = 0; k < 1; k++) {
-				Metric metric = new Metric(k + "" + i);
+			Dashboard dashboard = dashboardRepository.findOne(1L);
+			if (dashboard == null) {
+				dashboard = new Dashboard(i + "");
+				dashboard.setAccount(account);
+				dashboardRepository.save(dashboard);
+			}
+			Metric metric = metricRepository.findOne(1L);
+			if (metric == null) {
+				metric = new Metric("" + i);
 				metric.setDashboard(dashboard);
 				metricRepository.save(metric);
 			}
