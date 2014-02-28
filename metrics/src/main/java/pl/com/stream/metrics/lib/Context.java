@@ -52,24 +52,24 @@ public class Context implements ApplicationContextAware {
 
 	@PostConstruct
 	public void initData() {
-		Account account = repo.findOne(1L);
-		if (account == null) {
-			account = new Account("a", "b");
-			repo.save(account);
-		}
+		if (repo.count() == 0) {
+			Account account = repo.findOne(1L);
+			if (account == null) {
+				account = new Account("a", "b");
+				repo.save(account);
+			}
 
-		for (int i = 0; i < 1; i++) {
-			Dashboard dashboard = dashboardRepository.findOne(1L);
-			if (dashboard == null) {
-				dashboard = new Dashboard(i + "");
+			for (int i = 0; i < 10; i++) {
+				Dashboard dashboard = dashboardRepository.findOne(1L);
+				dashboard = new Dashboard(i + " " + System.currentTimeMillis());
 				dashboard.setAccount(account);
 				dashboardRepository.save(dashboard);
-			}
-			Metric metric = metricRepository.findOne(1L);
-			if (metric == null) {
-				metric = new Metric("" + i);
-				metric.setDashboard(dashboard);
-				metricRepository.save(metric);
+				for (int k = 0; k < 10; k++) {
+					Metric metric = metricRepository.findOne(1L);
+					metric = new Metric("" + i + k + System.currentTimeMillis());
+					metric.setDashboard(dashboard);
+					metricRepository.save(metric);
+				}
 			}
 		}
 	}

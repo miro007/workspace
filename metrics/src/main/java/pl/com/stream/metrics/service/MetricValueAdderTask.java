@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import pl.com.stream.metrics.model.Metric;
 import pl.com.stream.metrics.model.MetricValue;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.repo.MetricValueRepository;
@@ -25,10 +26,13 @@ public class MetricValueAdderTask {
 
 	@Scheduled(fixedRate = 60000)
 	public void addValue() {
-		MetricValue metricValue = new MetricValue();
-		metricValue.setMetric(metricRepository.findAll().iterator().next());
-		metricValue.setDate(new Date());
-		metricValue.setValue(r.nextDouble());
-		metricValueRepository.save(metricValue);
+		Iterable<Metric> findAll = metricRepository.findAll();
+		for (Metric m : findAll) {
+			MetricValue metricValue = new MetricValue();
+			metricValue.setMetric(m);
+			metricValue.setDate(new Date());
+			metricValue.setValue(r.nextDouble());
+			metricValueRepository.save(metricValue);
+		}
 	}
 }

@@ -35,7 +35,6 @@ function DashboardsController(Dashboard, User, $scope, $location){
 
 function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParams){
 	var idDashboard=$routeParams.idDashboard
-	
 
 	$scope.dashboard = Dashboard.get({id:idDashboard})
 	
