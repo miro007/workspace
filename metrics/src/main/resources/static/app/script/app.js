@@ -7,6 +7,7 @@ var app = angular.module('app', [ 'ngResource', 'ngRoute', 'ngCookies', ]);
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home', {
 		templateUrl : 'partials/home.html',
+		controller : 'HomeController',
 	}).when('/dashboards/:idDashboard', {
 		templateUrl : 'partials/dashboard.html',
 		controller : 'DashboardDetailsController'

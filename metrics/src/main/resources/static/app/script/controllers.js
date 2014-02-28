@@ -102,25 +102,27 @@ function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routePa
 				createStockChart(id, series, MetricValue);
 		})	
 			
-//		MetricValue.query({
-//			idMetric : 3
-//		}, function(data){
-//				var id = $scope.metric.id;
-//				var series=createChartSeries($scope.metric.name, data);
-//				MetricValue.query({
-//					idMetric : 4
-//				}, function(data){
-//						var id2 = $scope.metric.id;
-//						var series2=createChartSeries($scope.metric.name, data);
-//						
-//						var sum = series
-//						
-//						series[1] = series2[0];
-//						createStockChart(id, series)	;
-//				})	
-//				
-//		})
 		
 		
 	}		
+}
+
+function HomeController($scope, MetricValue){
+	MetricValue.query({
+		idMetric : 3
+	}, function(data){
+			var series=createChartSeries('a', data);
+			MetricValue.query({
+				idMetric : 4
+			}, function(data){
+					var series2=createChartSeries('b', data);
+					
+					var sum = series
+					
+					series[1] = series2[0];
+//					createSummaryChart(series);
+			})	
+			
+	})
+//	createSummaryChart()
 }

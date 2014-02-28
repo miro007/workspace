@@ -34,9 +34,9 @@ Highcharts.setOptions({
 	}
 });
 
-function createChart(id, values) {
+function createSummaryChart( values) {
 	$(document).ready(function(){
-	var chart = $('#chart'+id).highcharts(
+	var chart = $('#chart').highcharts(
 			{
 				chart : {
 					type : 'spline',
@@ -51,7 +51,7 @@ function createChart(id, values) {
 					}
 				},
 				title : {
-					text : 'Live random data'
+					text : 'Summary chart'
 				},
 				xAxis : {
 					type : 'datetime',
@@ -84,7 +84,7 @@ function createChart(id, values) {
 					enabled : false
 				},
 				minRange: 3600 * 1000,
-				series : values
+				series : values,//[{name:'mirek',data:[1,3,4]},{name:'maja',data:[12,33,4]}]
 
 			});
 	return chart
