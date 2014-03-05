@@ -192,5 +192,16 @@ function createChartSeries(name, data){
 	for(i=0;i<data.length;i++){
 		series[0].data.push([data[i].date, data[i].value])
 	}
+	series[0].id= 'dataseries'
+	series[1]={
+	        type: 'flags',
+	        name: 'miro',
+	        data: [{
+				x: 1394033237441,
+				title: '138.12.34'
+			}],
+	        onSeries: 'dataseries',
+	        shape: 'squarepin'
+	    }
 	return series;
 }
