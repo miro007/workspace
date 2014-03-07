@@ -23,10 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.stream.metrics.model.Account;
 import pl.com.stream.metrics.model.Dashboard;
 import pl.com.stream.metrics.model.Metric;
+import pl.com.stream.metrics.model.MetricEvent;
 import pl.com.stream.metrics.model.MetricLinkType;
 import pl.com.stream.metrics.model.MetricValue;
 import pl.com.stream.metrics.repo.AccountRepository;
 import pl.com.stream.metrics.repo.DashboardRepository;
+import pl.com.stream.metrics.repo.MetricEventRepository;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.repo.MetricValueRepository;
 
@@ -203,5 +205,13 @@ public class MetricService {
 			query.setParameter(name, map.get(name));
 		}
 		return query;
+	}
+
+	@Inject
+	MetricEventRepository eventRepository;
+
+	public void addEvent(MetricEvent event) {
+		eventRepository.save(event);
+
 	}
 }

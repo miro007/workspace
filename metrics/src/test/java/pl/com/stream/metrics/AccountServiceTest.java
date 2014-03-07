@@ -28,7 +28,6 @@ import pl.com.stream.metrics.service.AccountService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-// @ActiveProfiles("dev")
 @Transactional
 public class AccountServiceTest {
 	@Inject
@@ -94,14 +93,16 @@ public class AccountServiceTest {
 		service.updateDashboard(dashboard, name);
 
 		// then
-		assertThat(dashboardRepository.findOne(dashboard).getName()).isEqualTo(name);
+		assertThat(dashboardRepository.findOne(dashboard).getName()).isEqualTo(
+				name);
 
 		// when
 		service.deleteDashboard(dashboard);
 
 		// then
 		assertThat(dashboardRepository.findOne(dashboard)).isNull();
-		assertThat(repository.findOne(createAccount).getDashboardSet()).hasSize(0);
+		assertThat(repository.findOne(createAccount).getDashboardSet())
+				.hasSize(0);
 	}
 
 	@Test

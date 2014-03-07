@@ -81,13 +81,14 @@ function MenuController($location, $scope){
 	$scope.location = $location.absUrl()
 }
 
-function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routeParams, $location){
+function MetricController(Dashboard, Metric,Event, MetricValue, $http,$scope, $routeParams, $location){
 	var idDashboard=$routeParams.idDashboard
 	var idMetric=$routeParams.idMetric
 	
 	if(idMetric != undefined){
 		$scope.idMetric = idMetric;
 		$scope.metric = Metric.get({idDashboard:idDashboard,id:idMetric});
+		$scope.events= Event.listEvent({idDashboard:idDashboard,id:idMetric});
 	}
 	
 	$scope.location = $location.absUrl()
@@ -100,11 +101,19 @@ function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routePa
 				var series=createChartSeries($scope.metric.name, data);
 				
 				createStockChart(id, series, MetricValue);
-		})	
-			
-		
-		
-	}		
+		});	
+	}
+	
+	
+	
+	$scope.saveEvent = function(){
+		$scope.event.idDashboard = idDashboard;
+		$scope.event.idMetric = idMetric;
+		Event.addEvent($scope.event);
+		 $('#eventModal').modal('hide');
+		 $scope.events= Event.listEvent({idDashboard:idDashboard,id:idMetric});
+	}
+	
 }
 
 function HomeController($scope, MetricValue){
@@ -120,9 +129,9 @@ function HomeController($scope, MetricValue){
 					var sum = series
 					
 					series[1] = series2[0];
-//					createSummaryChart(series);
+// createSummaryChart(series);
 			})	
 			
 	})
-//	createSummaryChart()
+// createSummaryChart()
 }

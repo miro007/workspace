@@ -11,17 +11,13 @@
 						<thead>
 							<tr>
 								<th>Id</th>
-								<th>State</th>
 								<th>Name</th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="dash in dashboards | filter:searchText">
+							<tr ng-repeat="dash in dashboards | filter:searchText" ng-class="{warning:$index % 4==0}">
 								<td>{{dash.id}} </td>
-								<td> <span class="label label-info" ng-if="$index%3==0">Good condition</span>
-								<span class="label label-warning" ng-if="$index%3==1">Bad condition</span>
-								<span class="label label-success" ng-if="$index%3==2">Great condition</span></td>
 								<td>{{dash.name}}</td>
 								<td align="right">
 									<a href="#dashboards/{{dash.id}}"

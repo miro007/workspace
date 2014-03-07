@@ -24,6 +24,22 @@ app.factory('Metric', [ '$resource', function($resource) {
 		}
 	});
 } ]);
+
+app.factory('Event', [ '$resource', function($resource) {
+	return $resource('../../rest/dashboards/:idDashboard/metrics/:id/event', {idDashboard:'@idDashboard',id:'@idMetric'}, {
+		'listEvent' : {
+			method : 'GET',
+			isArray : true
+		},
+		'addEvent':{
+			method:'POST'
+		},
+		'removeEvent':{
+			method:'DELETE'
+		},
+	});
+} ]);
+
 app.factory('MetricValue', [ '$resource', function($resource) {
 	return $resource('../../rest/metrics/values/:id', {}, {
 		'query' : {

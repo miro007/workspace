@@ -24,7 +24,7 @@ public class MetricValueAdderTask {
 	Calendar inCalendar = Calendar.getInstance();
 	Random r = new Random(10000);
 
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 10000)
 	public void addValue() {
 		Iterable<Metric> findAll = metricRepository.findAll();
 		for (Metric m : findAll) {
