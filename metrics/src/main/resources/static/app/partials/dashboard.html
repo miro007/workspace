@@ -1,17 +1,20 @@
-<div >
-	<i style="font-size:24px">{{dashboard.name}}</i>
-
+<div>
+	<i style="font-size: 24px">{{dashboard.name}}</i>
+<button class="btn btn-primary btn-xs" data-toggle="modal"
+		data-target="#eventsModal" style="float: right;">
+		<span class="glyphicon glyphicon-flash"></span> Events
+	</button>
 	<button class="btn btn-primary btn-xs" data-toggle="modal"
-		data-target="#metricModal" style="float: right">
+		data-target="#metricModal" style="float: right; margin-right: 10px">
 		<span class="glyphicon glyphicon-flash"></span> Create a new Metric
 	</button>
-	<br /> <br />
 	
-	<div class="row" >
+	<br /> <br />
+	<div class="row">
 		<div ng-repeat="item in metrics" style="width: 100%;">
-			<div class="col-md-6 col-lg-4"
-				ng-repeat="element in item">
-				<metric-chart data="element" update-action="update(id)" delete-action="delete(id)"/>
+			<div class="col-md-6 col-lg-4" ng-repeat="element in item">
+				<metric-chart data="element" update-action="update(id)"
+					delete-action="delete(id)" />
 			</div>
 		</div>
 	</div>
@@ -21,23 +24,23 @@
 
 <!-- modal -->
 <div class="modal fade" id="metricModal" role="dialog"
-	 aria-hidden="true" tabindex="-1">
+	aria-hidden="true" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form name="metricForm" role="form" novalidate   class="form-horizontal" ng-submit="save()">
+			<form name="metricForm" role="form" novalidate
+				class="form-horizontal" ng-submit="save()">
 
-				<div class="modal-header" >
+				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true" ng-click="clear()">&times;</button>
-					<h4 class="modal-title" >Create or edit a
-						metric</h4>
+					<h4 class="modal-title">Create or edit a metric</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
 						<label class="col-sm-4 controll-label">Name</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" name="name" 
-								ng-model="metric.name" >
+							<input type="text" class="form-control" name="name"
+								ng-model="metric.name">
 						</div>
 					</div>
 
@@ -51,29 +54,104 @@
 							</select>
 						</div>
 					</div>
-					<div class="form-group"  ng-show="metric.type=='PULL'" >
+					<div class="form-group" ng-show="metric.type=='PULL'">
 						<label class="col-sm-4 controll-label">Pull link</label>
 						<div class="col-sm-8">
-							<input type="text" class="form-control" name="type"  
-								ng-model="metric.pullLink" >
+							<input type="text" class="form-control" name="type"
+								ng-model="metric.pullLink">
 						</div>
 					</div>
 					<div class="form-group" ng-show="metric.type=='PUSH'">
 						<label class="col-sm-4 controll-label">Push link</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" name="test"
-								value="rest/metrics/values/addByName?dashboardName={{dashboard.name}}&metricName={{metric.name}}&value=" readonly="readonly"
-								size="10">
+								value="rest/metrics/values/addByName?dashboardName={{dashboard.name}}&metricName={{metric.name}}&value="
+								readonly="readonly" size="10">
 						</div>
 					</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal"
-							ng-click="clear()">Cancel</button>
-						<button type="submit" 
-							class="btn btn-primary">Save</button>
-					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						ng-click="clear()">Cancel</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
 			</form>
 		</div>
 	</div>
 </div>
+
+
+
+<!-- modal -->
+<div class="modal fade" id="eventsModal" tabindex="-1" role="dialog"
+	aria-labelledby="myFooLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" ng-click="clear()">&times;</button>
+					<h4 class="modal-title">Events</h4>
+				</div>
+				<div class="panel panel-default">
+  <div class="panel-body">
+
+				
+				
+			<table class="table table-striped" >
+				<tr>
+					<th>Date</th>
+					<th>Name</th>
+				</tr>
+				<tr ng-repeat="event in events">
+					<td>{{event.date | date :'yyyy-dd-MM'}}</td>
+					<td>{{event.name}}</td>
+				</tr>
+			</table>
+  </div>
+</div>
+<div class="modal-footer">
+	<button type="submit" data-toggle="modal"
+		data-target="#addEventModal"
+		class="btn btn-primary">Add event</button>
+</div>
+</div>
+</div>
+
+
+<!-- modal -->
+<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog"
+	aria-labelledby="myFooLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form name="form" role="form" novalidate
+				class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength"
+				ng-submit="saveEvent()">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true" ng-click="clear()">&times;</button>
+					<h4 class="modal-title">Event</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Date</label> <input type="text" autofocus="autofocus"
+							datepicker-popup="yyyy-MM-dd" class="form-control"
+							ng-model="event.date" required>
+					</div>
+					<div class="form-group">
+						<label>Name</label> <input type="text" autofocus="autofocus"
+							class="form-control" ng-model="event.name" required>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="submit" ng-disabled="form.$invalid"
+						class="btn btn-primary">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+

@@ -26,7 +26,7 @@ app.factory('Metric', [ '$resource', function($resource) {
 } ]);
 
 app.factory('Event', [ '$resource', function($resource) {
-	return $resource('../../rest/dashboards/:idDashboard/metrics/:id/event', {idDashboard:'@idDashboard',id:'@idMetric'}, {
+	return $resource('../../rest/dashboards/:idDashboard/event', {idDashboard:'@idDashboard'}, {
 		'listEvent' : {
 			method : 'GET',
 			isArray : true

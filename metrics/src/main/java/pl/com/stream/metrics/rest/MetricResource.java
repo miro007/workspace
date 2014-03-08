@@ -1,8 +1,5 @@
 package pl.com.stream.metrics.rest;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
@@ -16,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import pl.com.stream.metrics.model.Metric;
-import pl.com.stream.metrics.model.MetricEvent;
 import pl.com.stream.metrics.repo.AccountRepository;
 import pl.com.stream.metrics.repo.DashboardRepository;
-import pl.com.stream.metrics.repo.MetricEventRepository;
+import pl.com.stream.metrics.repo.DashboardEventRepository;
 import pl.com.stream.metrics.repo.MetricRepository;
 import pl.com.stream.metrics.service.MetricService;
 
@@ -36,7 +32,7 @@ public class MetricResource {
 	MetricService metricService;
 
 	@Inject
-	MetricEventRepository metricEventRepository;
+	DashboardEventRepository metricEventRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public Iterable<Metric> queryByDashboard(@PathVariable Long idDashboard) {
@@ -67,25 +63,5 @@ public class MetricResource {
 			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity(HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/{id}/event", method = RequestMethod.POST)
-	public void addEvent(@PathVariable Long id, @RequestBody MetricEvent event) {
-		Metric metric = repo.findOne(id);
-		event.setMetric(metric);
-		event.setDate(new Date());
-		metricService.addEvent(event);
-		List<MetricEvent> findByMetric = metricEventRepository.findByMetric(metric);
-	}
-
-	@RequestMapping(value = "/{id}/event", method = RequestMethod.GET)
-	public List<MetricEvent> listEvent(@PathVariable("id") Long id) {
-		Metric metric = repo.findOne(id);
-		return metricEventRepository.findByMetric(metric);
-	}
-
-	@RequestMapping(value = "/{id}/event", method = RequestMethod.DELETE)
-	public void removeEvent(@PathVariable Long id, @RequestParam("idEvent") Long idEvent) {
-		metricEventRepository.delete(idEvent);
 	}
 }

@@ -33,7 +33,7 @@ function DashboardsController(Dashboard, User, $scope, $location){
     };
 }
 
-function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParams){
+function DashboardDetailsController(Dashboard, Metric, Event, $http,$scope, $routeParams){
 	var idDashboard=$routeParams.idDashboard
 
 	$scope.dashboard = Dashboard.get({id:idDashboard})
@@ -74,14 +74,22 @@ function DashboardDetailsController(Dashboard, Metric, $http,$scope, $routeParam
     $scope.clear = function () {
         $scope.metric = {name:'', pullLink :'/rest/metrics/values/example'};
     };
+    
 
+	$scope.saveEvent = function(){
+		$scope.event.idDashboard = idDashboard;
+		Event.addEvent($scope.event);
+		 $('#addEventModal').modal('hide');
+		 $scope.events= Event.listEvent({idDashboard:idDashboard});
+	}
 	
+	 $scope.events= Event.listEvent({idDashboard:idDashboard});
 }
 function MenuController($location, $scope){
 	$scope.location = $location.absUrl()
 }
 
-function MetricController(Dashboard, Metric,Event, MetricValue, $http,$scope, $routeParams, $location){
+function MetricController(Dashboard, Metric, MetricValue, $http,$scope, $routeParams, $location){
 	var idDashboard=$routeParams.idDashboard
 	var idMetric=$routeParams.idMetric
 	
@@ -97,28 +105,9 @@ function MetricController(Dashboard, Metric,Event, MetricValue, $http,$scope, $r
 			idMetric : id
 		}, function(data){
 			var id = $scope.metric.id;
-			if(idMetric != undefined){
-				Event.listEvent({idDashboard:idDashboard,id:idMetric}, function(events){
-					$scope.events= events
-					var series=createChartSeries($scope.metric.name, data,  events);
-					createStockChart(id, series, MetricValue);
-				});
-			}else{
-				var series=createChartSeries($scope.metric.name, data,  []);
-				
-				createStockChart(id, series, MetricValue);
-			}
+			var series=createChartSeries($scope.metric.name, data);
+			createStockChart(id, series, MetricValue);
 		});	
-	}
-	
-	
-	
-	$scope.saveEvent = function(){
-		$scope.event.idDashboard = idDashboard;
-		$scope.event.idMetric = idMetric;
-		Event.addEvent($scope.event);
-		 $('#eventModal').modal('hide');
-		 $scope.events= Event.listEvent({idDashboard:idDashboard,id:idMetric});
 	}
 	
 }
@@ -136,9 +125,7 @@ function HomeController($scope, MetricValue){
 					var sum = series
 					
 					series[1] = series2[0];
-// createSummaryChart(series);
 			})	
 			
 	})
-// createSummaryChart()
 }

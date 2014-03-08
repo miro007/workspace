@@ -221,7 +221,7 @@ function afterSetExtremes(e) {
 
 }
 
-function createChartSeries(name, data, events) {
+function createChartSeries(name, data) {
 	var series = [];
 	series[0] = {
 		name : name,
@@ -231,22 +231,5 @@ function createChartSeries(name, data, events) {
 		series[0].data.push([ data[i].date, data[i].value ])
 	}
 	series[0].id = 'dataseries'
-		
-	if (events != undefined) {
-		flagsData = [];
-		for (i = 0; i < events.length; i++) {
-			flagsData.push({
-				title : events[i].name,
-				x : events[i].date
-			})
-		}
-		series[1] = {
-			type : 'flags',
-			name : 'Events',
-			data : flagsData,
-			onSeries : 'dataseries',
-			shape : 'squarepin'
-		}
-	}
 	return series;
 }

@@ -10,21 +10,21 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class MetricEvent extends BaseEntity {
+public class DashboardEvent extends BaseEntity {
 	@JsonIgnore
 	@ManyToOne
-	private Metric metric;
+	private Dashboard dashboard;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 	private String name;
 
-	public MetricEvent() {
+	public DashboardEvent() {
 	}
 
-	public MetricEvent(Metric metric, String event) {
-		this.metric = metric;
+	public DashboardEvent(Dashboard dashboard, String event) {
+		this.setDashboard(dashboard);
 		name = event;
 	}
 
@@ -44,9 +44,12 @@ public class MetricEvent extends BaseEntity {
 		this.date = date;
 	}
 
-	public void setMetric(Metric metric) {
-		this.metric = metric;
+	public Dashboard getDashboard() {
+		return dashboard;
+	}
 
+	public void setDashboard(Dashboard dashboard) {
+		this.dashboard = dashboard;
 	}
 
 }
