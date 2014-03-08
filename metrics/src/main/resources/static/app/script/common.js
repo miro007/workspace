@@ -34,174 +34,219 @@ Highcharts.setOptions({
 	}
 });
 
-function createSummaryChart( values) {
-	$(document).ready(function(){
-	var chart = $('#chart').highcharts(
-			{
-				chart : {
-					type : 'spline',
-					animation : Highcharts.svg, // don't animate in old IE
-					marginRight : 10,
-					events : {
-						load : function() {
- 
-							// set up the updating of the chart each second
-							series = this.series[0];
-						}
-					}
-				},
-				title : {
-					text : 'Summary chart'
-				},
-				xAxis : {
-					type : 'datetime',
-					tickPixelInterval : 150
-				},
-				yAxis : {
-					title : {
-						text : 'Value'
-					},
-					plotLines : [ {
-						value : 0,
-						width : 1,
-						color : '#808080'
-					} ]
-				},
-				tooltip : {
-					formatter : function() {
-						return '<b>'
-								+ this.series.name
-								+ '</b><br/>'
-								+ Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',
-										this.x) + '<br/>'
-								+ Highcharts.numberFormat(this.y, 2);
-					}
-				},
-				legend : {
-					enabled : true
-				},
-				exporting : {
-					enabled : false
-				},
-				minRange: 3600 * 1000,
-				series : values,//[{name:'mirek',data:[1,3,4]},{name:'maja',data:[12,33,4]}]
+function createSummaryChart(values) {
+	$(document)
+			.ready(
+					function() {
+						var chart = $('#chart')
+								.highcharts(
+										{
+											chart : {
+												type : 'spline',
+												animation : Highcharts.svg, // don't
+																			// animate
+																			// in
+																			// old
+																			// IE
+												marginRight : 10,
+												events : {
+													load : function() {
 
-			});
-	return chart
-	})
+														// set up the updating
+														// of the chart each
+														// second
+														series = this.series[0];
+													}
+												}
+											},
+											title : {
+												text : 'Summary chart'
+											},
+											xAxis : {
+												type : 'datetime',
+												tickPixelInterval : 150
+											},
+											yAxis : {
+												title : {
+													text : 'Value'
+												},
+												plotLines : [ {
+													value : 0,
+													width : 1,
+													color : '#808080'
+												} ]
+											},
+											tooltip : {
+												formatter : function() {
+													return '<b>'
+															+ this.series.name
+															+ '</b><br/>'
+															+ Highcharts
+																	.dateFormat(
+																			'%Y-%m-%d %H:%M:%S',
+																			this.x)
+															+ '<br/>'
+															+ Highcharts
+																	.numberFormat(
+																			this.y,
+																			2);
+												}
+											},
+											legend : {
+												enabled : true
+											},
+											exporting : {
+												enabled : false
+											},
+											minRange : 3600 * 1000,
+											series : values,// [{name:'mirek',data:[1,3,4]},{name:'maja',data:[12,33,4]}]
+
+										});
+						return chart
+					})
 }
 
-function createStockChart(id,values, MetricValue){
+function createStockChart(id, values, MetricValue) {
 	// Create a timer
-	var start = + new Date();
+	var start = +new Date();
 
-	$(document).ready(function(){
-	$('#chart'+id).highcharts('StockChart', {
-	    chart: {
-			events: {
-				load: function(chart) {
-						console.log('Built chart at '+ (new Date() - start) +'ms')
-				}
-			},
-			zoomType: 'x'
-	    },
+	$(document)
+			.ready(
+					function() {
+						$('#chart' + id)
+								.highcharts(
+										'StockChart',
+										{
+											chart : {
+												events : {
+													load : function(chart) {
+														console
+																.log('Built chart at '
+																		+ (new Date() - start)
+																		+ 'ms')
+													}
+												},
+												zoomType : 'x'
+											},
 
-	    rangeSelector: {
-	        buttons: [{
-	            type: 'day',
-	            count: 1,
-	            text: '1d'
-	        }, {
-	            type: 'week',
-	            count: 1,
-	            text: '1w'
-	        }, {
-	            type: 'month',
-	            count: 1,
-	            text: '1m'
-	        }, {
-	            type: 'month',
-	            count: 6,
-	            text: '6m'
-	        }, {
-	            type: 'year',
-	            count: 1,
-	            text: '1y'
-	        }, {
-	            type: 'all',
-	            text: 'All'
-	        }],
-	        selected: 0
-	    },	
-	    navigator : {
-			adaptToUpdatedData: false
-	    },
-	    scrollbar: {
-			liveRedraw: false
-		},
+											rangeSelector : {
+												buttons : [ {
+													type : 'day',
+													count : 1,
+													text : '1d'
+												}, {
+													type : 'week',
+													count : 1,
+													text : '1w'
+												}, {
+													type : 'month',
+													count : 1,
+													text : '1m'
+												}, {
+													type : 'month',
+													count : 6,
+													text : '6m'
+												}, {
+													type : 'year',
+													count : 1,
+													text : '1y'
+												}, {
+													type : 'all',
+													text : 'All'
+												} ],
+												selected : 0
+											},
+											navigator : {
+												adaptToUpdatedData : false
+											},
+											scrollbar : {
+												liveRedraw : false
+											},
 
-	    xAxis : {
-			events : {
-				afterSetExtremes : function(e){
-					chart = $('#chart'+id).highcharts();
-					
-					chart.showLoading('Loading data from server...');
-					
-					MetricValue.query({
-						idMetric : id,
-						start:Math.round(e.min),
-						end: Math.round(e.max)
-					}, function(data){
-							var result =createChartSeries('name',data)
-							var d=result[0].data
-							chart.series[0].setData(d);
-							chart.hideLoading();
-					})	
-					
-				}
-			}
-		},
-		 legend: {
-		        enabled: true,
-		    },
-		series: values
+											xAxis : {
+												events : {
+													afterSetExtremes : function(
+															e) {
+														chart = $('#chart' + id)
+																.highcharts();
 
-	});
-	})
+														chart
+																.showLoading('Loading data from server...');
+
+														MetricValue
+																.query(
+																		{
+																			idMetric : id,
+																			start : Math
+																					.round(e.min),
+																			end : Math
+																					.round(e.max)
+																		},
+																		function(
+																				data) {
+																			var result = createChartSeries(
+																					'name',
+																					data)
+																			var d = result[0].data
+																			chart.series[0]
+																					.setData(d);
+																			chart
+																					.hideLoading();
+																		})
+
+													}
+												}
+											},
+											legend : {
+												enabled : true,
+											},
+											series : values
+
+										});
+					})
 }
 function afterSetExtremes(e) {
-alert(e)
-	var currentExtremes = this.getExtremes(),
-		range = e.max - e.min,
-		chart = $('#container').highcharts();
-		
+	alert(e)
+	var currentExtremes = this.getExtremes(), range = e.max - e.min, chart = $(
+			'#container').highcharts();
+
 	chart.showLoading('Loading data from server...');
-	$.getJSON('http://www.highcharts.com/samples/data/from-sql.php?start='+ Math.round(e.min) +
-			'&end='+ Math.round(e.max) +'&callback=?', function(data) {
-		
-		chart.series[0].setData(data);
-		chart.hideLoading();
-	});
-	
+	$.getJSON('http://www.highcharts.com/samples/data/from-sql.php?start='
+			+ Math.round(e.min) + '&end=' + Math.round(e.max) + '&callback=?',
+			function(data) {
+
+				chart.series[0].setData(data);
+				chart.hideLoading();
+			});
+
 }
 
-
-function createChartSeries(name, data){
+function createChartSeries(name, data, events) {
 	var series = [];
-	series[0] = {name:name,data:[]}
-	for(i=0;i<data.length;i++){
-		series[0].data.push([data[i].date, data[i].value])
+	series[0] = {
+		name : name,
+		data : []
 	}
-	series[0].id= 'dataseries'
-	series[1]={
-	        type: 'flags',
-	        name: 'miro',
-	        data: [{
-				x: 1394033237441,
-				title: '138.12.34'
-			}],
-	        onSeries: 'dataseries',
-	        shape: 'squarepin'
-	    }
+	for (i = 0; i < data.length; i++) {
+		series[0].data.push([ data[i].date, data[i].value ])
+	}
+	series[0].id = 'dataseries'
+		
+	if (events != undefined) {
+		flagsData = [];
+		for (i = 0; i < events.length; i++) {
+			flagsData.push({
+				title : events[i].name,
+				x : events[i].date
+			})
+		}
+		series[1] = {
+			type : 'flags',
+			name : 'Events',
+			data : flagsData,
+			onSeries : 'dataseries',
+			shape : 'squarepin'
+		}
+	}
 	return series;
 }

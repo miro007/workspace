@@ -88,7 +88,6 @@ function MetricController(Dashboard, Metric,Event, MetricValue, $http,$scope, $r
 	if(idMetric != undefined){
 		$scope.idMetric = idMetric;
 		$scope.metric = Metric.get({idDashboard:idDashboard,id:idMetric});
-		$scope.events= Event.listEvent({idDashboard:idDashboard,id:idMetric});
 	}
 	
 	$scope.location = $location.absUrl()
@@ -97,10 +96,18 @@ function MetricController(Dashboard, Metric,Event, MetricValue, $http,$scope, $r
 		MetricValue.query({
 			idMetric : id
 		}, function(data){
-				var id = $scope.metric.id;
-				var series=createChartSeries($scope.metric.name, data);
+			var id = $scope.metric.id;
+			if(idMetric != undefined){
+				Event.listEvent({idDashboard:idDashboard,id:idMetric}, function(events){
+					$scope.events= events
+					var series=createChartSeries($scope.metric.name, data,  events);
+					createStockChart(id, series, MetricValue);
+				});
+			}else{
+				var series=createChartSeries($scope.metric.name, data,  []);
 				
 				createStockChart(id, series, MetricValue);
+			}
 		});	
 	}
 	

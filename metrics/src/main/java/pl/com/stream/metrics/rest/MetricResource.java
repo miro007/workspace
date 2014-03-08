@@ -1,5 +1,6 @@
 package pl.com.stream.metrics.rest;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -72,6 +73,7 @@ public class MetricResource {
 	public void addEvent(@PathVariable Long id, @RequestBody MetricEvent event) {
 		Metric metric = repo.findOne(id);
 		event.setMetric(metric);
+		event.setDate(new Date());
 		metricService.addEvent(event);
 		List<MetricEvent> findByMetric = metricEventRepository.findByMetric(metric);
 	}
